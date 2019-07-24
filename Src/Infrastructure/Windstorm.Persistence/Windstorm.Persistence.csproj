@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -8,6 +8,10 @@
     <Folder Include="Configurations\" />
     <Folder Include="Repositories\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
 
 </Project>
