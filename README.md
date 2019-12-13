@@ -1,4 +1,7 @@
 # Windstorm
  
 Plans:
-Rename project to: World Seed
+1# Rename project to: World Seed
+
+Goals:
+To create a framework that can be reused in any project. To have only 1 code base to maintain and everything else will be an extension.
