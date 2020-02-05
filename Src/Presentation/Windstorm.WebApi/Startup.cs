@@ -42,7 +42,7 @@ namespace Windstorm.WebApi
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            IApplicationBuilder applicationBuilder = app.UseMvc();
         }
     }
 }
