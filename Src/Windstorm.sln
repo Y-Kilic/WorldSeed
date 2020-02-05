@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windstorm.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Windstorm.Persistence", "Infrastructure\Windstorm.Persistence\Windstorm.Persistence.csproj", "{DED9524A-BBEA-4DEC-B035-D330B604796F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindStorm.WebApi", "Presentation\WindStorm.WebApi\WindStorm.WebApi.csproj", "{F49D7890-B6CC-46C4-9501-F4F5D96817B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DED9524A-BBEA-4DEC-B035-D330B604796F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DED9524A-BBEA-4DEC-B035-D330B604796F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DED9524A-BBEA-4DEC-B035-D330B604796F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F49D7890-B6CC-46C4-9501-F4F5D96817B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49D7890-B6CC-46C4-9501-F4F5D96817B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F49D7890-B6CC-46C4-9501-F4F5D96817B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F49D7890-B6CC-46C4-9501-F4F5D96817B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
