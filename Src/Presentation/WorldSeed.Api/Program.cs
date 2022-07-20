@@ -1,9 +1,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using WorldSeed.Api.Temp;
+using WorldSeed.Application.Interfaces;
+using WorldSeed.Application.Interfaces.Repositories;
+using WorldSeed.Application.Interfaces.Services;
+using WorldSeed.Persistence;
+using WorldSeed.Persistence.Repositories;
+using WorldSeed.Persistence.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,10 +44,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
-
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+         options.UseInMemoryDatabase(databaseName: "Test"));
 
 // Authentication
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient<IUserService, UserService>();
+
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddHttpContextAccessor();
 
 

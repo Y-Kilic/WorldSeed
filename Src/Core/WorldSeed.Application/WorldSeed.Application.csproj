@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Services\" />
+    <Folder Include="Interfaces\Entities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Presentation\WorldSeed.Web\WorldSeed.Web.csproj" />
+    <ProjectReference Include="..\WorldSeed.Domain\WorldSeed.Domain.csproj" />
   </ItemGroup>
 
 </Project>

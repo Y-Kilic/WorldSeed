@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
     <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
+    <ProjectReference Include="..\..\Core\WorldSeed.Domain\WorldSeed.Domain.csproj" />
   </ItemGroup>
 
 </Project>

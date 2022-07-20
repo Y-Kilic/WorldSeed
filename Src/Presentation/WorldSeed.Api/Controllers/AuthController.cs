@@ -5,6 +5,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
+using WorldSeed.Application.DTOS;
+using WorldSeed.Application.Interfaces.Services;
+using WorldSeed.Domain.Entities;
+using WorldSeed.Persistence.Services;
 
 namespace WorldSeed.Api.Controllers
 {
@@ -25,8 +29,10 @@ namespace WorldSeed.Api.Controllers
         [HttpGet, Authorize]
         public ActionResult<string> GetMe()
         {
-            var userName = _userService.GetMyName();
-            return Ok(userName);
+            return Ok("");
+
+            //var userName = _userService.GetMyName();
+            //return Ok(userName);
         }
 
         [HttpPost("register")]
@@ -34,27 +40,40 @@ namespace WorldSeed.Api.Controllers
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.Username = request.Username;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            var createUserDTO = new CreateUserDTO()
+            {
+                Username = request.Username,
+                Email = request.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
 
-            return Ok(user);
+            _userService.CreateUser(createUserDTO);
+
+            return Ok();
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDto request)
         {
-            if (user.Username != request.Username)
+
+            // TODO merge dtos?
+            var loginUserDTO = new LoginUserDTO()
+            {
+                UserName = request.Username,
+                Password = request.Password
+            };
+
+            // If null then user not exist. Make more
+            var result = _userService.CheckLogin(loginUserDTO);
+
+            if (result == null)
             {
                 return BadRequest("User not found.");
             }
 
-            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                return BadRequest("Wrong password.");
-            }
 
-            string token = CreateToken(user);
+            string token = CreateToken(result);
 
             var refreshToken = GenerateRefreshToken();
             SetRefreshToken(refreshToken);
@@ -95,6 +114,7 @@ namespace WorldSeed.Api.Controllers
             return refreshToken;
         }
 
+        // TODO: Move this out of AuthController
         private void SetRefreshToken(RefreshToken newRefreshToken)
         {
             var cookieOptions = new CookieOptions
@@ -109,11 +129,12 @@ namespace WorldSeed.Api.Controllers
             user.TokenExpires = newRefreshToken.Expires;
         }
 
+        // TODO: Move this out of AuthController
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, "Admin")
             };
 
@@ -132,6 +153,7 @@ namespace WorldSeed.Api.Controllers
             return jwt;
         }
 
+        // TODO: Move this out of AuthController
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -141,13 +163,5 @@ namespace WorldSeed.Api.Controllers
             }
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
     }
 }

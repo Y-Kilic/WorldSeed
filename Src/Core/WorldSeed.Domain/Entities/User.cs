@@ -8,7 +8,7 @@ namespace WorldSeed.Domain.Entities
     {
         public int Id { get; set; }
         public Guid Guid { get; set; }
-        public string NickName { get; set; }
+        public string UserName { get; set; }
         public string DisplayName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -23,10 +23,13 @@ namespace WorldSeed.Domain.Entities
         public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string Salt { get; set; }
-        public Image ProfilePicture { get; set; }
+        public byte[] Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
+        public DateTime TokenCreated { get; set; }
+        public DateTime TokenExpires { get; set; }
     }
 }
