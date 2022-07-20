@@ -57,5 +57,5 @@ jobs:
           # on the project dashboard in SonarCloud.
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"SonarSource_sonarcloud-github-action-samples" /o:"sonarsource" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build SomeConsoleApplication.sln
+          dotnet build /Src/WorldSeed.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
