@@ -1,4 +1,5 @@
 # WorldSeed
+To help grow new .NET web applications! Hehe.
 
 # Main goal:
 1# To create a secure, fast, loosely coupled framework that can be used as base for any project.
