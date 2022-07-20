@@ -10,7 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: Src
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
