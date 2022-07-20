@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Persistence", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Web", "Presentation\WorldSeed.Web\WorldSeed.Web.csproj", "{788D2C77-B6D3-4362-90E9-C3D767CA3141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSeed.Api", "Presentation\WorldSeed.Api\WorldSeed.Api\WorldSeed.Api.csproj", "{9ED96A11-8261-4360-B5B6-0CD2CE8969B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSeed.Api", "Presentation\WorldSeed.Api\WorldSeed.Api.csproj", "{1BD2540D-4FA0-490C-8C86-424036625BC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{788D2C77-B6D3-4362-90E9-C3D767CA3141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{788D2C77-B6D3-4362-90E9-C3D767CA3141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{788D2C77-B6D3-4362-90E9-C3D767CA3141}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9ED96A11-8261-4360-B5B6-0CD2CE8969B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9ED96A11-8261-4360-B5B6-0CD2CE8969B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9ED96A11-8261-4360-B5B6-0CD2CE8969B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9ED96A11-8261-4360-B5B6-0CD2CE8969B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD2540D-4FA0-490C-8C86-424036625BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD2540D-4FA0-490C-8C86-424036625BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD2540D-4FA0-490C-8C86-424036625BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD2540D-4FA0-490C-8C86-424036625BC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
