@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Common", "Common\Windstorm.Common\WorldSeed.Common.csproj", "{6FBD1601-C7CA-450D-B8BC-42A9CA64F82E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Common", "Common\WorldSeed.Common\WorldSeed.Common.csproj", "{6FBD1601-C7CA-450D-B8BC-42A9CA64F82E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Application", "Core\Windstorm.Application\WorldSeed.Application.csproj", "{444B4C41-1BA5-4A5A-AAEE-5C18EAB7207B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Application", "Core\WorldSeed.Application\WorldSeed.Application.csproj", "{444B4C41-1BA5-4A5A-AAEE-5C18EAB7207B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Domain", "Core\Windstorm.Domain\WorldSeed.Domain.csproj", "{5A117B28-2021-4740-A92A-189FD13F59DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Domain", "Core\WorldSeed.Domain\WorldSeed.Domain.csproj", "{5A117B28-2021-4740-A92A-189FD13F59DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Infrastructure", "Infrastructure\Windstorm.Infrastructure\WorldSeed.Infrastructure.csproj", "{7B7B1FEE-DC5C-4910-B023-9C07284C1EB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Infrastructure", "Infrastructure\WorldSeed.Infrastructure\WorldSeed.Infrastructure.csproj", "{7B7B1FEE-DC5C-4910-B023-9C07284C1EB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Persistence", "Infrastructure\Windstorm.Persistence\WorldSeed.Persistence.csproj", "{DED9524A-BBEA-4DEC-B035-D330B604796F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Persistence", "Infrastructure\WorldSeed.Persistence\WorldSeed.Persistence.csproj", "{DED9524A-BBEA-4DEC-B035-D330B604796F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.WebApi", "Presentation\WindStorm.WebApi\WorldSeed.WebApi.csproj", "{F49D7890-B6CC-46C4-9501-F4F5D96817B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.WebApi", "Presentation\WorldSeed.WebApi\WorldSeed.WebApi.csproj", "{F49D7890-B6CC-46C4-9501-F4F5D96817B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.API", "Presentation\WindStorm.API\WorldSeed.API.csproj", "{788D2C77-B6D3-4362-90E9-C3D767CA3141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.API", "Presentation\WorldSeed.API\WorldSeed.API.csproj", "{788D2C77-B6D3-4362-90E9-C3D767CA3141}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Windstorm.Application.Interfaces;
+using WorldSeed.Application.Interfaces;
 
-namespace Windstorm.Persistence
+namespace WorldSeed.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {

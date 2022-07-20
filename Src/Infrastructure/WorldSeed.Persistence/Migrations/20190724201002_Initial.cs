@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Windstorm.Persistence.Migrations
+namespace WorldSeed.Persistence.Migrations
 {
     public partial class Initial : Migration
     {

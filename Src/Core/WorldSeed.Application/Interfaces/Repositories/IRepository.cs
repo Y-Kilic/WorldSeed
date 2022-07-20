@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Windstorm.Application.Interfaces.Repositories
+namespace WorldSeed.Application.Interfaces.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {

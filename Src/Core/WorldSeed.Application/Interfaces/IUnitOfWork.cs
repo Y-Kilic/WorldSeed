@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Windstorm.Application.Interfaces
+namespace WorldSeed.Application.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

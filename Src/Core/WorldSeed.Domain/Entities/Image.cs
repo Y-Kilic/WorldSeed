@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Windstorm.Domain.Entities
+namespace WorldSeed.Domain.Entities
 {
     public class Image
     {

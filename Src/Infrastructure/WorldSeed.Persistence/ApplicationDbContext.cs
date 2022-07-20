@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Windstorm.Persistence
+namespace WorldSeed.Persistence
 {
     public class ApplicationDbContext : DbContext
     {

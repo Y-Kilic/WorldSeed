@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using Windstorm.Application.Interfaces.Repositories;
+using WorldSeed.Application.Interfaces.Repositories;
 
-namespace Windstorm.Persistence.Repositories
+namespace WorldSeed.Persistence.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
