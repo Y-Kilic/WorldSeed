@@ -1,6 +1,6 @@
 using System;
 
-namespace WindStorm.API.Models
+namespace WorldSeed.API.Models
 {
     public class ErrorViewModel
     {

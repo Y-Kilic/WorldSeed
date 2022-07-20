@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace WindStorm.WebApi.Controllers
+namespace WorldSeed.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

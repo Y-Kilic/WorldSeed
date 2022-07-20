@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace WindStorm.WebApi
+namespace WorldSeed.WebApi
 {
     public class Program
     {

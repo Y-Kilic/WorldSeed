@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WindStorm.API
+namespace WorldSeed.API
 {
     public class Program
     {

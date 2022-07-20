@@ -1,6 +1,6 @@
 using System;
 
-namespace WindStorm.WebApi
+namespace WorldSeed.WebApi
 {
     public class WeatherForecast
     {

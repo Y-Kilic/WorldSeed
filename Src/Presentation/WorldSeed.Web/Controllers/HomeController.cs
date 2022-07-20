@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WindStorm.API.Models;
+using WorldSeed.API.Models;
 
-namespace WindStorm.API.Controllers
+namespace WorldSeed.API.Controllers
 {
     public class HomeController : Controller
     {

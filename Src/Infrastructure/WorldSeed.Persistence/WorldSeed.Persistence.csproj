@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Windstorm.Application\WorldSeed.Application.csproj" />
+    <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
     <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
   </ItemGroup>
 

@@ -16,7 +16,7 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
       }
     },
-    "WindStorm.API": {
+    "WorldSeed.API": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

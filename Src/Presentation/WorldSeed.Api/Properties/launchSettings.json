@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WindStorm.WebApi": {
+    "WorldSeed.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

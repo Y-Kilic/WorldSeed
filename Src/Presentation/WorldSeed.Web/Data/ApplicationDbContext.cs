@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WindStorm.API.Data
+namespace WorldSeed.API.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

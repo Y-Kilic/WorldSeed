@@ -11,9 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WindStorm.API.Data;
+using WorldSeed.API.Data;
 
-namespace WindStorm.API
+namespace WorldSeed.API
 {
     public class Startup
     {
