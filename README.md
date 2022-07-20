@@ -9,5 +9,12 @@
 # The framework:
 As a developer I dislike reinventing the wheel every time I am assigned to work on a project, I wish to create a framework that can be used to quickly create projects, without having to sacrifice security or the quality of the code.
 
+# Features:
+- Clean architecture
+- Repository pattern
+- Unit Of work pattern
+- Services pattern
+- API based token Authentication
+
 Credits to:
 https://github.com/jasontaylordev/NorthwindTraders (For his example and inspiration)
