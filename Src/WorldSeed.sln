@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Persistence", "Infrastructure\WorldSeed.Persistence\WorldSeed.Persistence.csproj", "{DED9524A-BBEA-4DEC-B035-D330B604796F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Api", "Presentation\WorldSeed.API\WorldSeed.Api.csproj", "{F49D7890-B6CC-46C4-9501-F4F5D96817B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Api", "Presentation\WorldSeed.Api\WorldSeed.Api.csproj", "{F49D7890-B6CC-46C4-9501-F4F5D96817B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Web", "Presentation\WorldSeed.Web\WorldSeed.Web.csproj", "{788D2C77-B6D3-4362-90E9-C3D767CA3141}"
 EndProject
