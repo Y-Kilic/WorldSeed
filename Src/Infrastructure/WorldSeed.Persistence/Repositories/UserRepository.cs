@@ -21,6 +21,5 @@ namespace WorldSeed.Persistence.Repositories
             get { return Context as ApplicationDbContext; }
         }
 
-        API.Data.ApplicationDbContext IUserRepository.ApplicationDbContext => throw new NotImplementedException();
     }
 }
