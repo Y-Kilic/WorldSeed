@@ -22,9 +22,16 @@ namespace WorldSeed.Persistence.Services
 
         public bool CreateUser(CreateUserDTO createUserDTO)
         {
-            var userExist = _unitOfwork.Users.GetAll().Where(u => u.UserName.Equals(createUserDTO.UserName)).FirstOrDefault();
+            var userNameExist = _unitOfwork.Users.GetAll().Where(u => u.UserName.Equals(createUserDTO.UserName)).FirstOrDefault();
 
-            if(userExist != null)
+            if(userNameExist != null)
+            {
+                return false;
+            }
+
+            var emailExist = _unitOfwork.Users.GetAll().Where(u => u.Email.Equals(createUserDTO.Email)).FirstOrDefault();
+
+            if (emailExist != null)
             {
                 return false;
             }
