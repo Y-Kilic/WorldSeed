@@ -42,15 +42,22 @@ namespace WorldSeed.Api.Controllers
 
             var createUserDTO = new CreateUserDTO()
             {
-                Username = request.Username,
+                UserName = request.Username,
                 Email = request.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
 
-            _userService.CreateUser(createUserDTO);
+            var resultCreate =_userService.CreateUser(createUserDTO);
 
-            return Ok();
+            if (resultCreate)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Conflict("User already exist.");
+            }
         }
 
         [HttpPost("login")]

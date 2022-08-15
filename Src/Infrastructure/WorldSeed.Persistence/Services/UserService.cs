@@ -22,9 +22,16 @@ namespace WorldSeed.Persistence.Services
 
         public bool CreateUser(CreateUserDTO createUserDTO)
         {
+            var userExist = _unitOfwork.Users.GetAll().Where(u => u.UserName.Equals(createUserDTO.UserName)).FirstOrDefault();
+
+            if(userExist != null)
+            {
+                return false;
+            }
+
             var newUser = new User()
             {
-                UserName = createUserDTO.Username,
+                UserName = createUserDTO.UserName,
                 Email = createUserDTO.Email,
                 PasswordHash = createUserDTO.PasswordHash,
                 PasswordSalt = createUserDTO.PasswordSalt
@@ -46,7 +53,6 @@ namespace WorldSeed.Persistence.Services
             if(result == true)
             {
                 return userFromDB;
-
             }
 
             return null;
