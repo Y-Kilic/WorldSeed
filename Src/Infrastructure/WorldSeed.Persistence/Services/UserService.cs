@@ -48,13 +48,22 @@ namespace WorldSeed.Persistence.Services
         {
             var userFromDB = _unitOfwork.Users.GetAll().Where(u => u.UserName.Equals(loginUserDTO.UserName)).FirstOrDefault();
 
+            // User not exist
+            if(null == userFromDB)
+            {
+                return null;
+            }
+
+            // Check user password if valid
             var result = VerifyPasswordHash(loginUserDTO.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt);
 
+            // If valid return user.
             if(result == true)
             {
                 return userFromDB;
             }
 
+            // not valid login, return null.
             return null;
         }
 
