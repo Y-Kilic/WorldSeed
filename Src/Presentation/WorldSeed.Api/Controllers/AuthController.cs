@@ -26,15 +26,6 @@ namespace WorldSeed.Api.Controllers
             _userService = userService;
         }
 
-        [HttpGet, Authorize]
-        public ActionResult<string> GetMe()
-        {
-            return Ok("");
-
-            //var userName = _userService.GetMyName();
-            //return Ok(userName);
-        }
-
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserRegisterDTO request)
         {
