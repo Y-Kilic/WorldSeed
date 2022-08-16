@@ -8,7 +8,7 @@ using WorldSeed.Api.Temp;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Application.Interfaces.Services;
-using WorldSeed.Infrastructure;
+using WorldSeed.Infrastructure.Data;
 using WorldSeed.Infrastructure.Repositories;
 using WorldSeed.Persistence;
 using WorldSeed.Persistence.Services;

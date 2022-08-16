@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Repositories;
-using WorldSeed.Infrastructure;
 using WorldSeed.Infrastructure.Repositories;
 
-namespace WorldSeed.Infrastructure
+namespace WorldSeed.Infrastructure.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly WorldSeed.Infrastructure.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public UnitOfWork(WorldSeed.Infrastructure.ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             Users = new UserRepository(_context);

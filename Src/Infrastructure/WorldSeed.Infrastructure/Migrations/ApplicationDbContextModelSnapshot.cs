@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using WorldSeed.Infrastructure.Data;
 using WorldSeed.Persistence;
 
 namespace WorldSeed.Infrastructure.Migrations

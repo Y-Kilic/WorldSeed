@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using WorldSeed.Domain.Entities;
 
-namespace WorldSeed.Infrastructure
+namespace WorldSeed.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
