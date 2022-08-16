@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\WorldSeed.Persistence\WorldSeed.Persistence.csproj" />
   </ItemGroup>
 
