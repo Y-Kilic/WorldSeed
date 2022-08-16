@@ -6,7 +6,7 @@ using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Infrastructure;
 using WorldSeed.Infrastructure.Repositories;
 
-namespace WorldSeed.Persistence
+namespace WorldSeed.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
