@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using WorldSeed.Application.Interfaces.Repositories;
 
-namespace WorldSeed.Persistence.Repositories
+namespace WorldSeed.Infrastructure.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

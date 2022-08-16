@@ -8,7 +8,7 @@ using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Domain;
 using WorldSeed.Domain.Entities;
 
-namespace WorldSeed.Persistence.Repositories
+namespace WorldSeed.Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
