@@ -48,7 +48,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
          options.UseInMemoryDatabase(databaseName: "Test"));
 
-// Authentication
+// Dependency injection
 builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
