@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldSeed.Domain.Entities
+namespace WorldSeed.Domain.Entities.Forum.Forum
 {
-    public class ForumCategoryThread
+    public class ForumCategoryThreadPost
     {
         public int Id { get; set; }
-        public ForumCategory ForumCategory { get; set; }
+        public ForumCategoryThread ForumCategoryThread { get; set; }
     }
 }

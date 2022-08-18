@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldSeed.Domain.Entities
+namespace WorldSeed.Domain.Entities.Group
 {
-    public class ForumCategoryThreadPost
+    public class Group
     {
         public int Id { get; set; }
-        public ForumCategoryThread ForumCategoryThread { get; set; }
+        public User Owner { get; set; }
+        public Forum Forum { get; set; }
+
     }
 }

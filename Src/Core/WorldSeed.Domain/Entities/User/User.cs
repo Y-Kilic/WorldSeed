@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WorldSeed.Domain.Entities
+namespace WorldSeed.Domain.Entities.User
 {
     public class User
     {

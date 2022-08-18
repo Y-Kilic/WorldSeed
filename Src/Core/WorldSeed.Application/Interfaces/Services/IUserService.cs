@@ -1,6 +1,5 @@
 ﻿using WorldSeed.Application.DTOS;
-using WorldSeed.Domain.Entities;
-
+using WorldSeed.Domain.Entities.User;
 using WorldSeed.Persistence.Services;
 
 namespace WorldSeed.Application.Interfaces.Services

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Services;
-using WorldSeed.Domain.Entities;
+using WorldSeed.Domain.Entities.User;
 
 namespace WorldSeed.Persistence.Services
 {

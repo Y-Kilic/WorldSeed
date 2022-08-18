@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldSeed.Domain.Entities
+namespace WorldSeed.Domain.Entities.Forum
 {
-    public class GroupMember
+    public class Forum
     {
         public int Id { get; set; }
-        public Group Group { get; set; }
-        public User User { get; set; }
-
     }
 }
