@@ -9,7 +9,11 @@ namespace WorldSeed.Infrastructure.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Forum> Forums { get; set; }
+        public DbSet<ForumCategory> ForumCategories { get; set; }
+        public DbSet<ForumCategoryThread> ForumCategoriesThreads { get; set; }
+        public DbSet<ForumCategoryThreadPost> ForumCategoryThreadPosts { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
