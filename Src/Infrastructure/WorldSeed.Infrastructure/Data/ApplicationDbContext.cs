@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WorldSeed.Domain.Entities.Forum;
-using WorldSeed.Domain.Entities.Group;
-using WorldSeed.Domain.Entities.User;
+using WorldSeed.Domain.Entities.ForumRelated;
+using WorldSeed.Domain.Entities.GroupRelated;
+using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Infrastructure.Data
 {

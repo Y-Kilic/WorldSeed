@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Domain;
-using WorldSeed.Domain.Entities.User;
+using WorldSeed.Domain.Entities.UserRelated;
 using WorldSeed.Infrastructure.Data;
 
 namespace WorldSeed.Infrastructure.Repositories

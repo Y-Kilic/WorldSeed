@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
-using WorldSeed.Domain.Entities.User;
+using WorldSeed.Domain.Entities.UserRelated;
 using WorldSeed.Persistence.Services;
 
 namespace WorldSeed.Api.Controllers

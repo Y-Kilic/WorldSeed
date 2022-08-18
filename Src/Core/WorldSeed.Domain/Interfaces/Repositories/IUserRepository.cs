@@ -1,4 +1,4 @@
-﻿using WorldSeed.Domain.Entities.User;
+﻿using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Application.Interfaces.Repositories
 {
