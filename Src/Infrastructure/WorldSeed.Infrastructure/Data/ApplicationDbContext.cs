@@ -18,12 +18,14 @@ namespace WorldSeed.Infrastructure.Data
         public DbSet<CharacterMessage> CharacterMessages { get; set; }
 
         public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupMember> GroupMembers { get; set; }
+        public DbSet<GroupMessage> GroupMessages { get; set; }
+
 
         public DbSet<Forum> Forums { get; set; }
         public DbSet<ForumCategory> ForumCategories { get; set; }
         public DbSet<ForumCategoryThread> ForumCategoriesThreads { get; set; }
         public DbSet<ForumCategoryThreadPost> ForumCategoryThreadPosts { get; set; }
-
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options)
