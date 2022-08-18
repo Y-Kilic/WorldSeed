@@ -12,6 +12,8 @@ namespace WorldSeed.Domain.Entities.CharacterRelated
         public int Id { get; set; }
         public Character Sender { get; set; }
         public Character Receiver { get; set; }
+        public String Title { get; set; }
+        public String Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
