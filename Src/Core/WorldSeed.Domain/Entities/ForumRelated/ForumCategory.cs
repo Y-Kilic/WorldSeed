@@ -10,5 +10,7 @@ namespace WorldSeed.Domain.Entities.ForumRelated
     {
         public int Id { get; set; }
         public Forum Forum { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

@@ -11,5 +11,8 @@ namespace WorldSeed.Domain.Entities.CharacterRelated
     {
         public int Id { get; set; }
         public User User { get; set; }
+        public String Name { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

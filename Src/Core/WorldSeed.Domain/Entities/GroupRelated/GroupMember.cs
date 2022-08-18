@@ -13,6 +13,8 @@ namespace WorldSeed.Domain.Entities.GroupRelated
         public int Id { get; set; }
         public Group Group { get; set; }
         public Character Character { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
     }
 }
