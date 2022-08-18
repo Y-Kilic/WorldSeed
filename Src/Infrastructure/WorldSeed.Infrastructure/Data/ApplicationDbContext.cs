@@ -11,6 +11,7 @@ namespace WorldSeed.Infrastructure.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<UserMessage> UserMessages { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Forum> Forums { get; set; }
         public DbSet<ForumCategory> ForumCategories { get; set; }
