@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Domain;
-using WorldSeed.Domain.Entities.UserRelated;
+using WorldSeed.Domain.Entities.AccountRelated;
 using WorldSeed.Infrastructure.Data;
 
 namespace WorldSeed.Infrastructure.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class AccountRepository : Repository<Account>, IAccountRepository
     {
-        public UserRepository(ApplicationDbContext context) : base(context)
+        public AccountRepository(ApplicationDbContext context) : base(context)
         {
         }
 

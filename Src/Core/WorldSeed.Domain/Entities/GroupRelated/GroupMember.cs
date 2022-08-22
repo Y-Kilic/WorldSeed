@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorldSeed.Domain.Entities.CharacterRelated;
 using WorldSeed.Domain.Entities.UserRelated;
+using WorldSeed.Domain.Entities.AccountRelated;
 
 namespace WorldSeed.Domain.Entities.GroupRelated
 {
@@ -12,7 +12,7 @@ namespace WorldSeed.Domain.Entities.GroupRelated
     {
         public int Id { get; set; }
         public Group Group { get; set; }
-        public Character Character { get; set; }
+        public User Character { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

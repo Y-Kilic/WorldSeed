@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorldSeed.Domain.Entities.CharacterRelated;
+using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Domain.Entities.GroupRelated
 {

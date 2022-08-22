@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorldSeed.Application.DTOS
 {
-    public class CreateUserDTO
+    public class CreateAccountDTO
     {
         public string UserName { get; set; }
         public string Email { get; set; }

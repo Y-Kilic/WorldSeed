@@ -5,7 +5,7 @@ namespace WorldSeed.Application.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository Users { get; }
+        IAccountRepository Accounts { get; }
 
         int SaveChanges();
     }

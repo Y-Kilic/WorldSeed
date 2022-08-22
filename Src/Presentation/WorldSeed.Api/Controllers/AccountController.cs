@@ -5,7 +5,7 @@ namespace WorldSeed.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CharacterController : ControllerBase
+    public class AccountController : ControllerBase
     {
     }
 }

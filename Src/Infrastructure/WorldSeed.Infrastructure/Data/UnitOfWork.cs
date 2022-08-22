@@ -14,10 +14,10 @@ namespace WorldSeed.Infrastructure.Data
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            Users = new UserRepository(_context);
+            Accounts = new AccountRepository(_context);
         }
 
-        public IUserRepository Users { get; private set; }
+        public IAccountRepository Accounts { get; private set; }
 
         public int SaveChanges()
         {

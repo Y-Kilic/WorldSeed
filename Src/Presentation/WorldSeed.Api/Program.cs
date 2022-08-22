@@ -49,9 +49,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
          options.UseInMemoryDatabase(databaseName: "Test"));
 
 // Dependency injection
-builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAccountService, AccountService>();
 
-builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

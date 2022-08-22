@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
-using WorldSeed.Domain.Entities.UserRelated;
+using WorldSeed.Domain.Entities.AccountRelated;
 using WorldSeed.Persistence.Services;
 
 namespace WorldSeed.Api.Controllers
@@ -16,22 +16,22 @@ namespace WorldSeed.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        public static Account user = new Account();
         private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
+        private readonly IAccountService _userService;
 
-        public AuthController(IConfiguration configuration, IUserService userService)
+        public AuthController(IConfiguration configuration, IAccountService userService)
         {
             _configuration = configuration;
             _userService = userService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserRegisterDTO request)
+        public async Task<ActionResult<Account>> Register(UserRegisterDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            var createUserDTO = new CreateUserDTO()
+            var createUserDTO = new CreateAccountDTO()
             {
                 UserName = request.Username,
                 Email = request.Email,
@@ -39,7 +39,7 @@ namespace WorldSeed.Api.Controllers
                 PasswordSalt = passwordSalt
             };
 
-            var resultCreate =_userService.CreateUser(createUserDTO);
+            var resultCreate =_userService.CreateAccount(createUserDTO);
 
             if (resultCreate)
             {
@@ -47,7 +47,7 @@ namespace WorldSeed.Api.Controllers
             }
             else
             {
-                return Conflict("User already exist.");
+                return Conflict("Account already exist.");
             }
         }
 
@@ -56,7 +56,7 @@ namespace WorldSeed.Api.Controllers
         {
 
             // TODO merge dtos?
-            var loginUserDTO = new LoginUserDTO()
+            var loginUserDTO = new LoginAccountDTO()
             {
                 UserName = request.Username,
                 Password = request.Password
@@ -67,7 +67,7 @@ namespace WorldSeed.Api.Controllers
 
             if (result == null)
             {
-                return BadRequest("User not found.");
+                return BadRequest("Account not found.");
             }
 
 
@@ -128,7 +128,7 @@ namespace WorldSeed.Api.Controllers
         }
 
         // TODO: Move this out of AuthController
-        private string CreateToken(User user)
+        private string CreateToken(Account user)
         {
             List<Claim> claims = new List<Claim>
             {
