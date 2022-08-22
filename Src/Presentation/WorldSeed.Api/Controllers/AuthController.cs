@@ -16,18 +16,18 @@ namespace WorldSeed.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static Account user = new Account();
+        public static Account account = new Account();
         private readonly IConfiguration _configuration;
-        private readonly IAccountService _userService;
+        private readonly IAccountService _accountService;
 
-        public AuthController(IConfiguration configuration, IAccountService userService)
+        public AuthController(IConfiguration configuration, IAccountService accountService)
         {
             _configuration = configuration;
-            _userService = userService;
+            _accountService = accountService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<Account>> Register(UserRegisterDTO request)
+        public async Task<ActionResult<Account>> Register(AccountRegisterDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -39,7 +39,7 @@ namespace WorldSeed.Api.Controllers
                 PasswordSalt = passwordSalt
             };
 
-            var resultCreate =_userService.CreateAccount(createUserDTO);
+            var resultCreate =_accountService.CreateAccount(createUserDTO);
 
             if (resultCreate)
             {
@@ -52,18 +52,18 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserLoginDTO request)
+        public async Task<ActionResult<string>> Login(AccountLoginDTO request)
         {
 
             // TODO merge dtos?
-            var loginUserDTO = new LoginAccountDTO()
+            var loginAccountDTO = new LoginAccountDTO()
             {
                 UserName = request.Username,
                 Password = request.Password
             };
 
-            // If null then user not exist. Make more
-            var result = _userService.CheckLogin(loginUserDTO);
+            // If null then account not exist. Make more
+            var result = _accountService.CheckLogin(loginAccountDTO);
 
             if (result == null)
             {
@@ -84,16 +84,16 @@ namespace WorldSeed.Api.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
-            if (!user.RefreshToken.Equals(refreshToken))
+            if (!account.RefreshToken.Equals(refreshToken))
             {
                 return Unauthorized("Invalid Refresh Token.");
             }
-            else if (user.TokenExpires < DateTime.Now)
+            else if (account.TokenExpires < DateTime.Now)
             {
                 return Unauthorized("Token expired.");
             }
 
-            string token = CreateToken(user);
+            string token = CreateToken(account);
             var newRefreshToken = GenerateRefreshToken();
             SetRefreshToken(newRefreshToken);
 
@@ -122,17 +122,17 @@ namespace WorldSeed.Api.Controllers
             };
             Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
 
-            user.RefreshToken = newRefreshToken.Token;
-            user.TokenCreated = newRefreshToken.Created;
-            user.TokenExpires = newRefreshToken.Expires;
+            account.RefreshToken = newRefreshToken.Token;
+            account.TokenCreated = newRefreshToken.Created;
+            account.TokenExpires = newRefreshToken.Expires;
         }
 
         // TODO: Move this out of AuthController
-        private string CreateToken(Account user)
+        private string CreateToken(Account account)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Name, account.UserName),
                 new Claim(ClaimTypes.Role, "Admin")
             };
 
