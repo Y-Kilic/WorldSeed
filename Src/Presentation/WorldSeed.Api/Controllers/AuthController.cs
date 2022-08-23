@@ -82,6 +82,10 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken()
         {
+
+            var currentUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return currentUser.ToString();
             var refreshToken = Request.Cookies["refreshToken"];
 
             if (!account.RefreshToken.Equals(refreshToken))
@@ -132,8 +136,8 @@ namespace WorldSeed.Api.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, account.UserName),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Name, account.Email),
+                new Claim(ClaimTypes.Role, "User")
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(

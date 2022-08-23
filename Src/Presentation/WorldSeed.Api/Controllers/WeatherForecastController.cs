@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,12 @@ namespace WorldSeed.Api.Controllers
         [Authorize]
         public IEnumerable<WeatherForecast> Get()
         {
+
+//            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            identity.FindFirst().
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
