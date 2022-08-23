@@ -74,6 +74,15 @@ namespace WorldSeed.Persistence.Services
             return null;
         }
 
+        public Account GetAccountByEmail(string email)
+        {
+            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.Email.Equals(email));
+        }
+        public Account GetAccountByUsername(string username)
+        {
+            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.UserName.Equals(username));
+        }
+
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))

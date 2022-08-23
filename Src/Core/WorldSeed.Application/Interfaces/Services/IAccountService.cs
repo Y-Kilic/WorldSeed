@@ -8,6 +8,8 @@ namespace WorldSeed.Application.Interfaces.Services
     {
         public bool CreateAccount(CreateAccountDTO createAccountDTO);
         public Account CheckLogin(LoginAccountDTO loginAccountDTO);
+        public Account GetAccountByEmail(string email);
+        public Account GetAccountByUsername(string username);
 
     }
 }
