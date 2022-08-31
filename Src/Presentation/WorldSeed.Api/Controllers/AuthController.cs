@@ -65,13 +65,13 @@ namespace WorldSeed.Api.Controllers
             }
 
             var tokenDTO = _tokenService.CreateToken(result.Email);
-            var refreshToken = _tokenService.GenerateRefreshToken();
+            var refreshTokenDTO = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
                 result.Email,
-                refreshToken.Token,
-                refreshToken.Expires,
-                refreshToken.Created
+                refreshTokenDTO.Token,
+                refreshTokenDTO.Expires,
+                refreshTokenDTO.Created
                 );
 
             var AccountLoginResponseDTO = new LoginTokenResponseDTO()
@@ -79,7 +79,7 @@ namespace WorldSeed.Api.Controllers
                 Token = tokenDTO.Token,
                 ValidFrom = tokenDTO.ValidFrom,
                 ValidTo = tokenDTO.ValidTo,
-                RefreshTokenDTO = refreshToken
+                RefreshTokenDTO = refreshTokenDTO
             };
 
             return Ok(AccountLoginResponseDTO);
@@ -87,7 +87,7 @@ namespace WorldSeed.Api.Controllers
 
         [Authorize]
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
+        public async Task<ActionResult<RefreshTokenResponseDTO>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
 
             var currentUserEmail = User.FindFirst(ClaimTypes.Name).Value;
@@ -103,18 +103,18 @@ namespace WorldSeed.Api.Controllers
             }
 
             var tokenDTO = _tokenService.CreateToken(currentUserEmail);
-            var newRefreshToken = _tokenService.GenerateRefreshToken();
+            var refreshTokenDTO = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
-                currentUserEmail, newRefreshToken.Token,
-                newRefreshToken.Expires,
-                newRefreshToken.Created
+                currentUserEmail, refreshTokenDTO.Token,
+                refreshTokenDTO.Expires,
+                refreshTokenDTO.Created
                 );
 
             var refreshTokenResponseDTO = new RefreshTokenResponseDTO()
             {
                 Token = tokenDTO,
-                RefreshTokenDTO = newRefreshToken
+                RefreshTokenDTO = refreshTokenDTO
             };
 
             return Ok(refreshTokenResponseDTO);
