@@ -17,7 +17,6 @@ namespace WorldSeed.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static Account account = new Account();
         private readonly IConfiguration _configuration;
         private readonly IAccountService _accountService;
         private readonly ITokenService _tokenService;
@@ -30,7 +29,7 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<Account>> Register(AccountRegisterDTO request)
+        public async Task<ActionResult<String>> Register(AccountRegisterDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -65,7 +64,7 @@ namespace WorldSeed.Api.Controllers
                 return BadRequest("Login not valid.");
             }
 
-            var token = _tokenService.CreateToken(result.Email);
+            var tokenDTO = _tokenService.CreateToken(result.Email);
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
@@ -75,9 +74,11 @@ namespace WorldSeed.Api.Controllers
                 refreshToken.Created
                 );
 
-            var AccountLoginResponseDTO = new RefreshTokenResponseDTO()
+            var AccountLoginResponseDTO = new LoginTokenResponseDTO()
             {
-                Token = token,
+                Token = tokenDTO.Token,
+                ValidFrom = tokenDTO.ValidFrom,
+                ValidTo = tokenDTO.ValidTo,
                 RefreshTokenDTO = refreshToken
             };
 
@@ -101,7 +102,7 @@ namespace WorldSeed.Api.Controllers
                 return Unauthorized("Invalid Refresh Token.");
             }
 
-            string token = _tokenService.CreateToken(currentUserEmail);
+            var tokenDTO = _tokenService.CreateToken(currentUserEmail);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
@@ -112,7 +113,7 @@ namespace WorldSeed.Api.Controllers
 
             var refreshTokenResponseDTO = new RefreshTokenResponseDTO()
             {
-                Token = token,
+                Token = tokenDTO,
                 RefreshTokenDTO = newRefreshToken
             };
 

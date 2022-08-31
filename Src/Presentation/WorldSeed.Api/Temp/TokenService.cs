@@ -20,7 +20,7 @@ namespace WorldSeed.Api.Temp
             _configuration = configuration;
             _accountService = accountService;
         }
-        public string CreateToken(string accountEmail)
+        public TokenDTO CreateToken(string accountEmail)
         {
             var claims = new List<Claim>
             {
@@ -39,7 +39,14 @@ namespace WorldSeed.Api.Temp
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return jwt;
+            var tokenDTO = new TokenDTO()
+            {
+                Token = jwt,
+                ValidFrom = token.ValidFrom,
+                ValidTo = token.ValidTo
+            };
+
+            return tokenDTO;
         }
         public RefreshTokenDTO GenerateRefreshToken()
         {
