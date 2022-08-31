@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -19,11 +20,13 @@ namespace WorldSeed.Api.Controllers
         public static Account account = new Account();
         private readonly IConfiguration _configuration;
         private readonly IAccountService _accountService;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IConfiguration configuration, IAccountService accountService)
+        public AuthController(IConfiguration configuration, IAccountService accountService, ITokenService tokenService)
         {
             _configuration = configuration;
             _accountService = accountService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -52,108 +55,71 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(AccountLoginDTO request)
+        public async Task<ActionResult<RefreshTokenResponseDTO>> Login(AccountLoginRequestDTO request)
         {
 
-            // TODO merge dtos?
-            var loginAccountDTO = new LoginAccountDTO()
-            {
-                UserName = request.Username,
-                Password = request.Password
-            };
-
-            // If null then account not exist. Make more
-            var result = _accountService.CheckLogin(loginAccountDTO);
+            var result = _accountService.CheckLoginByEmail(request.Email, request.Password);
 
             if (result == null)
             {
-                return BadRequest("Account not found.");
+                return BadRequest("Login not valid.");
             }
 
+            var token = _tokenService.CreateToken(result.Email);
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
-            string token = CreateToken(result);
+            _accountService.UpdateTokens(
+                result.Email,
+                refreshToken.Token,
+                refreshToken.Expires,
+                refreshToken.Created
+                );
 
-            var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken);
+            var AccountLoginResponseDTO = new RefreshTokenResponseDTO()
+            {
+                Token = token,
+                RefreshTokenDTO = refreshToken
+            };
 
-            return Ok(token);
+            return Ok(AccountLoginResponseDTO);
         }
 
+        [Authorize]
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult<string>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
 
-            var currentUser = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserEmail = User.FindFirst(ClaimTypes.Name).Value;
 
-            return currentUser.ToString();
-            var refreshToken = Request.Cookies["refreshToken"];
+            if (currentUserEmail == null)
+            {
+                return BadRequest("Refreshtoken not valid.");
 
-            if (!account.RefreshToken.Equals(refreshToken))
+            }
+            if (!_tokenService.IsRefreshTokenValid(currentUserEmail, refreshTokenRequestDTO.RefreshToken))
             {
                 return Unauthorized("Invalid Refresh Token.");
             }
-            else if (account.TokenExpires < DateTime.Now)
+
+            string token = _tokenService.CreateToken(currentUserEmail);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+            _accountService.UpdateTokens(
+                currentUserEmail, newRefreshToken.Token,
+                newRefreshToken.Expires,
+                newRefreshToken.Created
+                );
+
+            var refreshTokenResponseDTO = new RefreshTokenResponseDTO()
             {
-                return Unauthorized("Token expired.");
-            }
-
-            string token = CreateToken(account);
-            var newRefreshToken = GenerateRefreshToken();
-            SetRefreshToken(newRefreshToken);
-
-            return Ok(token);
-        }
-
-        private RefreshToken GenerateRefreshToken()
-        {
-            var refreshToken = new RefreshToken
-            {
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddDays(7),
-                Created = DateTime.Now
+                Token = token,
+                RefreshTokenDTO = newRefreshToken
             };
 
-            return refreshToken;
+            return Ok(refreshTokenResponseDTO);
         }
-
         // TODO: Move this out of AuthController
-        private void SetRefreshToken(RefreshToken newRefreshToken)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = newRefreshToken.Expires
-            };
-            Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-
-            account.RefreshToken = newRefreshToken.Token;
-            account.TokenCreated = newRefreshToken.Created;
-            account.TokenExpires = newRefreshToken.Expires;
-        }
-
         // TODO: Move this out of AuthController
-        private string CreateToken(Account account)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, account.Email),
-                new Claim(ClaimTypes.Role, "User")
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
-        }
 
         // TODO: Move this out of AuthController
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

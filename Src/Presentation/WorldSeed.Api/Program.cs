@@ -52,6 +52,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddTransient<IAccountService, AccountService>();
 
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<ITokenService, TokenService>();
+
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

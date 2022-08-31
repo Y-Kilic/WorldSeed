@@ -29,11 +29,11 @@ namespace WorldSeed.Api.Controllers
 //            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var identity = HttpContext.User.Identity as ClaimsIdentity;
 
-            identity.FindFirst().
+          //  identity.FindFirst().
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                Date = DateTime.UtcNow.AddDays(index),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })

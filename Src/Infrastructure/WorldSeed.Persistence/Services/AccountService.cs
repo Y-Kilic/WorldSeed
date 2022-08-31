@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using WorldSeed.Application.DTOS;
@@ -51,9 +52,9 @@ namespace WorldSeed.Persistence.Services
             return true;
         }
 
-        public Account CheckLogin(LoginAccountDTO loginAccountDTO)
+        public Account CheckLoginByEmail(string email, string password)
         {
-            var accountFromDB = _unitOfwork.Accounts.GetAll().Where(u => u.UserName.Equals(loginAccountDTO.UserName)).FirstOrDefault();
+            var accountFromDB = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(email)).FirstOrDefault();
 
             // Account not exist
             if(null == accountFromDB)
@@ -62,7 +63,7 @@ namespace WorldSeed.Persistence.Services
             }
 
             // Check user password if valid
-            var result = VerifyPasswordHash(loginAccountDTO.Password, accountFromDB.PasswordHash, accountFromDB.PasswordSalt);
+            var result = VerifyPasswordHash(password, accountFromDB.PasswordHash, accountFromDB.PasswordSalt);
 
             // If valid return account.
             if(result == true)
@@ -92,5 +93,15 @@ namespace WorldSeed.Persistence.Services
             }
         }
 
+        public void UpdateTokens(string accountEmail, string refreshToken, DateTime expires, DateTime created)
+        {
+            var account = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(accountEmail)).FirstOrDefault();
+
+            account.RefreshToken = refreshToken;
+            account.TokenExpires = expires;
+            account.TokenCreated = created;
+
+            _unitOfwork.SaveChanges();
+        }
     }
 }
