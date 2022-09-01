@@ -29,7 +29,7 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<String>> Register(AccountRegisterDTO request)
+        public async Task<ActionResult<string>> Register(AccountRegisterDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
