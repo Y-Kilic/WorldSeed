@@ -21,16 +21,16 @@ namespace WorldSeed.Persistence.Services
             _unitOfwork = unitOfwork;
         }
 
-        public bool CreateAccount(CreateAccountDTO createAccountDTO)
+        public bool CreateAccount(string username, string email, byte[] passwordHash, byte[] passwordSalt)
         {
-            var userNameExist = _unitOfwork.Accounts.GetAll().Where(u => u.UserName.Equals(createAccountDTO.UserName)).FirstOrDefault();
+            var userNameExist = _unitOfwork.Accounts.GetAll().Where(u => u.UserName.Equals(username)).FirstOrDefault();
 
             if(userNameExist != null)
             {
                 return false;
             }
 
-            var emailExist = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(createAccountDTO.Email)).FirstOrDefault();
+            var emailExist = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(email)).FirstOrDefault();
 
             if (emailExist != null)
             {
@@ -39,10 +39,10 @@ namespace WorldSeed.Persistence.Services
 
             var newAccount = new Account()
             {
-                UserName = createAccountDTO.UserName,
-                Email = createAccountDTO.Email,
-                PasswordHash = createAccountDTO.PasswordHash,
-                PasswordSalt = createAccountDTO.PasswordSalt
+                UserName = username,
+                Email = email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
             };
 
             _unitOfwork.Accounts.Add(newAccount);

@@ -33,15 +33,7 @@ namespace WorldSeed.Api.Controllers
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            var createUserDTO = new CreateAccountDTO()
-            {
-                UserName = request.Username,
-                Email = request.Email,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
-            };
-
-            var resultCreate =_accountService.CreateAccount(createUserDTO);
+            var resultCreate =_accountService.CreateAccount(request.Username, request.Email, passwordHash, passwordSalt);
 
             if (resultCreate)
             {
@@ -119,8 +111,6 @@ namespace WorldSeed.Api.Controllers
 
             return Ok(refreshTokenResponseDTO);
         }
-        // TODO: Move this out of AuthController
-        // TODO: Move this out of AuthController
 
         // TODO: Move this out of AuthController
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
