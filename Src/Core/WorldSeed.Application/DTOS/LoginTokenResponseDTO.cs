@@ -1,6 +1,6 @@
-﻿using WorldSeed.Application.DTOS;
+﻿using System;
 
-namespace WorldSeed.Api.Temp
+namespace WorldSeed.Application.DTOS
 {
     public class LoginTokenResponseDTO
     {

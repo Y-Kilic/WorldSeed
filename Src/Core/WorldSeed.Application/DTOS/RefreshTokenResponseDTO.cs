@@ -1,6 +1,4 @@
-﻿using WorldSeed.Application.DTOS;
-
-namespace WorldSeed.Api.Temp
+﻿namespace WorldSeed.Application.DTOS
 {
     public class RefreshTokenResponseDTO
     {
