@@ -7,3 +7,4 @@ This will contain all entities, enums, exceptions, types and logic specific to t
 - Enumerations
 - Logic
 - Exceptions
+
