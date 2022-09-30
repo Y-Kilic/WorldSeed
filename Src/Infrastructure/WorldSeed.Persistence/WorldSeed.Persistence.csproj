@@ -6,17 +6,16 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -25,6 +24,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
     <ProjectReference Include="..\..\Core\WorldSeed.Application\WorldSeed.Application.csproj" />
+    <ProjectReference Include="..\..\Core\WorldSeed.Domain\WorldSeed.Domain.csproj" />
+    <ProjectReference Include="..\WorldSeed.Infrastructure\WorldSeed.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using WorldSeed.Application.Interfaces.Repositories;
 
 namespace WorldSeed.Application.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        IAccountRepository Accounts { get; }
+
         int SaveChanges();
     }
 }

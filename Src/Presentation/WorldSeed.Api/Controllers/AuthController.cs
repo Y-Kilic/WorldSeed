@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
+using WorldSeed.Application.DTOS;
+using WorldSeed.Application.Interfaces.Services;
+using WorldSeed.Domain.Entities.AccountRelated;
+using WorldSeed.Persistence.Services;
 
 namespace WorldSeed.Api.Controllers
 {
@@ -12,126 +17,102 @@ namespace WorldSeed.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
         private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IConfiguration configuration, IUserService userService)
+        public AuthController(IConfiguration configuration, IAccountService accountService, ITokenService tokenService)
         {
             _configuration = configuration;
-            _userService = userService;
-        }
-
-        [HttpGet, Authorize]
-        public ActionResult<string> GetMe()
-        {
-            var userName = _userService.GetMyName();
-            return Ok(userName);
+            _accountService = accountService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<ActionResult<string>> Register(AccountRegisterDTO request)
         {
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.Username = request.Username;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            var resultCreate =_accountService.CreateAccount(request.Username, request.Email, passwordHash, passwordSalt);
 
-            return Ok(user);
+            if (resultCreate)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Conflict("Account already exist.");
+            }
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request)
+        public async Task<ActionResult<RefreshTokenResponseDTO>> Login(AccountLoginRequestDTO request)
         {
-            if (user.Username != request.Username)
+
+            var result = _accountService.CheckLoginByEmail(request.Email, request.Password);
+
+            if (result == null)
             {
-                return BadRequest("User not found.");
+                return BadRequest("Login not valid.");
             }
 
-            if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            var tokenDTO = _tokenService.CreateToken(result.Email);
+            var refreshTokenDTO = _tokenService.GenerateRefreshToken();
+
+            _accountService.UpdateTokens(
+                result.Email,
+                refreshTokenDTO.Token,
+                refreshTokenDTO.Expires,
+                refreshTokenDTO.Created
+                );
+
+            var AccountLoginResponseDTO = new LoginTokenResponseDTO()
             {
-                return BadRequest("Wrong password.");
-            }
+                Token = tokenDTO.Token,
+                ValidFrom = tokenDTO.ValidFrom,
+                ValidTo = tokenDTO.ValidTo,
+                RefreshTokenDTO = refreshTokenDTO
+            };
 
-            string token = CreateToken(user);
-
-            var refreshToken = GenerateRefreshToken();
-            SetRefreshToken(refreshToken);
-
-            return Ok(token);
+            return Ok(AccountLoginResponseDTO);
         }
 
+        [Authorize]
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<string>> RefreshToken()
+        public async Task<ActionResult<RefreshTokenResponseDTO>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
-            var refreshToken = Request.Cookies["refreshToken"];
 
-            if (!user.RefreshToken.Equals(refreshToken))
+            var currentUserEmail = User.FindFirst(ClaimTypes.Name).Value;
+
+            if (currentUserEmail == null)
+            {
+                return BadRequest("Refreshtoken not valid.");
+
+            }
+            if (!_tokenService.IsRefreshTokenValid(currentUserEmail, refreshTokenRequestDTO.RefreshToken))
             {
                 return Unauthorized("Invalid Refresh Token.");
             }
-            else if (user.TokenExpires < DateTime.Now)
+
+            var tokenDTO = _tokenService.CreateToken(currentUserEmail);
+            var refreshTokenDTO = _tokenService.GenerateRefreshToken();
+
+            _accountService.UpdateTokens(
+                currentUserEmail, refreshTokenDTO.Token,
+                refreshTokenDTO.Expires,
+                refreshTokenDTO.Created
+                );
+
+            var refreshTokenResponseDTO = new RefreshTokenResponseDTO()
             {
-                return Unauthorized("Token expired.");
-            }
-
-            string token = CreateToken(user);
-            var newRefreshToken = GenerateRefreshToken();
-            SetRefreshToken(newRefreshToken);
-
-            return Ok(token);
-        }
-
-        private RefreshToken GenerateRefreshToken()
-        {
-            var refreshToken = new RefreshToken
-            {
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expires = DateTime.Now.AddDays(7),
-                Created = DateTime.Now
+                Token = tokenDTO,
+                RefreshTokenDTO = refreshTokenDTO
             };
 
-            return refreshToken;
+            return Ok(refreshTokenResponseDTO);
         }
 
-        private void SetRefreshToken(RefreshToken newRefreshToken)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = newRefreshToken.Expires
-            };
-            Response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
-
-            user.RefreshToken = newRefreshToken.Token;
-            user.TokenCreated = newRefreshToken.Created;
-            user.TokenExpires = newRefreshToken.Expires;
-        }
-
-        private string CreateToken(User user)
-        {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
-        }
-
+        // TODO: Move this out of AuthController
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
@@ -141,13 +122,5 @@ namespace WorldSeed.Api.Controllers
             }
         }
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
-        }
     }
 }
