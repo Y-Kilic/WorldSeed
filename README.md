@@ -15,7 +15,7 @@ As a developer I dislike reinventing the wheel every time I am assigned to work 
 - Repository pattern
 - Unit Of work pattern
 - Service pattern
-- Token Authentication
+- JWT bearer token authentication
 - REST API
 - Cross platform
 
