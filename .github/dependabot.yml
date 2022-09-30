@@ -9,3 +9,23 @@ updates:
     directory: "Src/Presentation/WorldSeed.Api" # Location of package manifests
     schedule:
       interval: "daily"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "Src/Infrastructure/WorldSeed.Infrastructure" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "Src/Infrastructure/WorldSeed.Persistence" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "Src/Core/WorldSeed.Application" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "Src/Core/WorldSeed.Domain" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget" # See documentation for possible values
+    directory: "Src/Common/WorldSeed.Common" # Location of package manifests
+    schedule:
+      interval: "daily"
