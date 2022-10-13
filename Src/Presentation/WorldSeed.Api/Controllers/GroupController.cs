@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.GroupRelated;
@@ -10,13 +12,18 @@ namespace WorldSeed.Api.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IGroupService _groupService;
+        private readonly IAccountService _accountService;
+
 
         [HttpPost("createGroup")]
-        public StatusCodeResult CreateGroup(CreateGroupDTO createGroupDTO)
+        public StatusCodeResult CreateGroup(CreateGroupRequestDto createGroupRequestDto)
         {
-            _groupService.CreateGroup(createGroupDTO);
+            var currentAccountId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var defaultAccountUser = _accountService.GetAccountById(currentAccountId).DefaultUser;
 
-            if (_groupService.CreateGroup(createGroupDTO))
+            var createdGroup = _groupService.CreateGroup(createGroupRequestDto.Name, defaultAccountUser.Id);
+
+            if (createdGroup != null)
             {
                 return StatusCode(StatusCodes.Status201Created);
             }
