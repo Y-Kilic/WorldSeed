@@ -13,10 +13,8 @@ namespace WorldSeed.Domain.Entities.GroupRelated
     {
         public int Id { get; set; }
         public User Owner { get; set; }
-        public Forum Forum { get; set; }
         public string Name { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorldSeed.Application.DTOS
 {
-    public class CreateGroupDTO
+    public class CreateGroupRequestDto
     {
         public string Name { get; set; }
     }
