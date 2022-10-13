@@ -83,6 +83,10 @@ namespace WorldSeed.Persistence.Services
         {
             return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.UserName.Equals(username));
         }
+        public Account GetAccountById(string accountId)
+        {
+            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.Id.Equals(accountId));
+        }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -93,9 +97,9 @@ namespace WorldSeed.Persistence.Services
             }
         }
 
-        public void UpdateTokens(string accountEmail, string refreshToken, DateTime expires, DateTime created)
+        public void UpdateTokens(string accountId, string refreshToken, DateTime expires, DateTime created)
         {
-            var account = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(accountEmail)).FirstOrDefault();
+            var account = _unitOfwork.Accounts.GetAll().Where(u => u.Id.Equals(accountId)).FirstOrDefault();
 
             account.RefreshToken = refreshToken;
             account.TokenExpires = expires;

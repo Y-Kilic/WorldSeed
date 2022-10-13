@@ -56,11 +56,11 @@ namespace WorldSeed.Api.Controllers
                 return BadRequest("Login not valid.");
             }
 
-            var tokenDTO = _tokenService.CreateToken(result.Email);
+            var tokenDTO = _tokenService.CreateToken(result.Id.ToString());
             var refreshTokenDTO = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
-                result.Email,
+                result.Id.ToString(),
                 refreshTokenDTO.Token,
                 refreshTokenDTO.Expires,
                 refreshTokenDTO.Created
@@ -82,23 +82,24 @@ namespace WorldSeed.Api.Controllers
         public async Task<ActionResult<RefreshTokenResponseDTO>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
 
-            var currentUserEmail = User.FindFirst(ClaimTypes.Name).Value;
+            var currentUserId = User.FindFirst(ClaimTypes.Name).Value;
 
-            if (currentUserEmail == null)
+            if (currentUserId == null)
             {
                 return BadRequest("Refreshtoken not valid.");
 
             }
-            if (!_tokenService.IsRefreshTokenValid(currentUserEmail, refreshTokenRequestDTO.RefreshToken))
+            if (!_tokenService.IsRefreshTokenValid(currentUserId, refreshTokenRequestDTO.RefreshToken))
             {
                 return Unauthorized("Invalid Refresh Token.");
             }
 
-            var tokenDTO = _tokenService.CreateToken(currentUserEmail);
+            var tokenDTO = _tokenService.CreateToken(currentUserId);
             var refreshTokenDTO = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
-                currentUserEmail, refreshTokenDTO.Token,
+                currentUserId,
+                refreshTokenDTO.Token,
                 refreshTokenDTO.Expires,
                 refreshTokenDTO.Created
                 );
