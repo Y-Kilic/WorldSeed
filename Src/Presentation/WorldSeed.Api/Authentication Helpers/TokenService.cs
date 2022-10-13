@@ -20,11 +20,11 @@ namespace WorldSeed.Api.Temp
             _configuration = configuration;
             _accountService = accountService;
         }
-        public TokenDTO CreateToken(string accountId)
+        public TokenDTO CreateToken(int accountId)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, accountId)
+                new Claim(ClaimTypes.Name, accountId.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
@@ -60,7 +60,7 @@ namespace WorldSeed.Api.Temp
             return refreshTokenDTO;
         }
 
-        public bool IsRefreshTokenValid(string accountId, string refreshToken)
+        public bool IsRefreshTokenValid(int accountId, string refreshToken)
         {
             var account = _accountService.GetAccountById(accountId);
 

@@ -14,11 +14,11 @@ namespace WorldSeed.Api.Controllers
         private readonly IGroupService _groupService;
         private readonly IAccountService _accountService;
 
-
+        [Authorize]
         [HttpPost("createGroup")]
         public StatusCodeResult CreateGroup(CreateGroupRequestDto createGroupRequestDto)
         {
-            var currentAccountId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentAccountId = int.Parse(User.FindFirst(ClaimTypes.Name).Value);
             var defaultAccountUser = _accountService.GetAccountById(currentAccountId).DefaultUser;
 
             var createdGroup = _groupService.CreateGroup(createGroupRequestDto.Name, defaultAccountUser.Id);

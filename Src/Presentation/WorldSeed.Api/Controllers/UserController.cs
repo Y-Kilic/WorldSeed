@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
@@ -22,13 +23,14 @@ namespace WorldSeed.Api.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpPost("createUser")]
         public StatusCodeResult CreateUser(CreateUserDTO createUserDTO)
         {
-            var currentAccountId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentAccountId = int.Parse(User.FindFirst(ClaimTypes.Name).Value);
             var account = _accountService.GetAccountById(currentAccountId);
 
-            var newUser = _userService.CreateUserAndSetAccountDefault(account.Id, createUserDTO.UserName);
+            var newUser = _userService.CreateUser(account.Id, createUserDTO.UserName);
 
             if (newUser != null)
             {

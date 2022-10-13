@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldSeed.Application.Interfaces;
+using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Persistence.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfwork;
 
@@ -16,7 +17,7 @@ namespace WorldSeed.Persistence.Services
         {
             _unitOfwork = unitOfwork;
         }
-        public User CreateUserAndSetAccountDefault(int accountId, string username)
+        public User CreateUser(int accountId, string username)
         {
             var account = _unitOfwork.Accounts.Get(accountId);
 

@@ -83,7 +83,7 @@ namespace WorldSeed.Persistence.Services
         {
             return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.UserName.Equals(username));
         }
-        public Account GetAccountById(string accountId)
+        public Account GetAccountById(int accountId)
         {
             return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.Id.Equals(accountId));
         }
@@ -97,7 +97,7 @@ namespace WorldSeed.Persistence.Services
             }
         }
 
-        public void UpdateTokens(string accountId, string refreshToken, DateTime expires, DateTime created)
+        public void UpdateTokens(int accountId, string refreshToken, DateTime expires, DateTime created)
         {
             var account = _unitOfwork.Accounts.GetAll().Where(u => u.Id.Equals(accountId)).FirstOrDefault();
 
