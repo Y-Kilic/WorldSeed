@@ -56,11 +56,11 @@ namespace WorldSeed.Api.Controllers
                 return BadRequest("Login not valid.");
             }
 
-            var tokenDTO = _tokenService.CreateToken(result.Id.ToString());
+            var tokenDTO = _tokenService.CreateToken(result.Id);
             var refreshTokenDTO = _tokenService.GenerateRefreshToken();
 
             _accountService.UpdateTokens(
-                result.Id.ToString(),
+                result.Id,
                 refreshTokenDTO.Token,
                 refreshTokenDTO.Expires,
                 refreshTokenDTO.Created
@@ -82,7 +82,7 @@ namespace WorldSeed.Api.Controllers
         public async Task<ActionResult<RefreshTokenResponseDTO>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
 
-            var currentUserId = User.FindFirst(ClaimTypes.Name).Value;
+            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.Name).Value);
 
             if (currentUserId == null)
             {

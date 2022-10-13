@@ -8,6 +8,7 @@ using WorldSeed.Api.Temp;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Application.Interfaces.Services;
+using WorldSeed.Domain.Entities.UserRelated;
 using WorldSeed.Infrastructure.Data;
 using WorldSeed.Infrastructure.Repositories;
 using WorldSeed.Persistence;
@@ -50,8 +51,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Dependency injection
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
-builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 
 

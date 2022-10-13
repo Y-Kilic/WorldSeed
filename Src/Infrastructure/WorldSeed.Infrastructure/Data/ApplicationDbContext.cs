@@ -33,6 +33,10 @@ namespace WorldSeed.Infrastructure.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Account>()
+                .HasMany<User>()
+                .WithOne(u => u.Account);
+
             base.OnModelCreating(builder);
         }
     }
