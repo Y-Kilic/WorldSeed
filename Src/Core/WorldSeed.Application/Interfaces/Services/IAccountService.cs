@@ -7,7 +7,7 @@ namespace WorldSeed.Application.Interfaces.Services
 {
     public interface IAccountService
     {
-        public bool CreateAccount(string username, string email, byte[] passwordHash, byte[] passwordSalt);
+        public Account CreateAccount(string username, string email, byte[] passwordHash, byte[] passwordSalt);
         public Account CheckLoginByEmail(string email, string password);
         public Account GetAccountById(int accountId);
         public Account GetAccountByEmail(string email);

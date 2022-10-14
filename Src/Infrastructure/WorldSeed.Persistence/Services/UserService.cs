@@ -17,6 +17,7 @@ namespace WorldSeed.Persistence.Services
         {
             _unitOfwork = unitOfwork;
         }
+
         public User CreateUser(int accountId, string username)
         {
             var account = _unitOfwork.Accounts.Get(accountId);

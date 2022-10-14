@@ -21,20 +21,20 @@ namespace WorldSeed.Persistence.Services
             _unitOfwork = unitOfwork;
         }
 
-        public bool CreateAccount(string username, string email, byte[] passwordHash, byte[] passwordSalt)
+        public Account CreateAccount(string username, string email, byte[] passwordHash, byte[] passwordSalt)
         {
             var userNameExist = _unitOfwork.Accounts.GetAll().Where(u => u.UserName.Equals(username)).FirstOrDefault();
 
             if(userNameExist != null)
             {
-                return false;
+                return null;
             }
 
             var emailExist = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(email)).FirstOrDefault();
 
             if (emailExist != null)
             {
-                return false;
+                return null;
             }
 
             var newAccount = new Account()
@@ -49,7 +49,7 @@ namespace WorldSeed.Persistence.Services
 
             _unitOfwork.SaveChanges();
 
-            return true;
+            return newAccount;
         }
 
         public Account CheckLoginByEmail(string email, string password)
@@ -85,7 +85,7 @@ namespace WorldSeed.Persistence.Services
         }
         public Account GetAccountById(int accountId)
         {
-            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.Id.Equals(accountId));
+            return _unitOfwork.Accounts.Get(accountId);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
