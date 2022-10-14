@@ -35,7 +35,7 @@ namespace WorldSeed.Api.Controllers
 
             var resultCreate =_accountService.CreateAccount(request.Username, request.Email, passwordHash, passwordSalt);
 
-            if (resultCreate)
+            if (resultCreate != null)
             {
                 return Ok();
             }
