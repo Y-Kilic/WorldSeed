@@ -85,7 +85,7 @@ namespace WorldSeed.Persistence.Services
         }
         public Account GetAccountById(int accountId)
         {
-            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.Id.Equals(accountId));
+            return _unitOfwork.Accounts.Get(accountId);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
