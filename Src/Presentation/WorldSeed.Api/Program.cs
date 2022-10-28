@@ -60,6 +60,14 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "DevelopmentModeCors",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                      });
+});
 
 var app = builder.Build();
 
@@ -68,6 +76,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseCors("DevelopmentModeCors");
 }
 
 app.UseHttpsRedirection();
