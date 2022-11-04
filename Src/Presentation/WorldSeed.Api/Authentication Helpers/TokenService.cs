@@ -24,7 +24,7 @@ namespace WorldSeed.Api.Temp
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, accountId.ToString())
+                new Claim("accountId", accountId.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
