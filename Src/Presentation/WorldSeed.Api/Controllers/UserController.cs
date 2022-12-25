@@ -28,7 +28,7 @@ namespace WorldSeed.Api.Controllers
 
         [Authorize]
         [HttpPost("createUser")]
-        public StatusCodeResult CreateUser(CreateUserDTO createUserDTO)
+        public object CreateUser(CreateUserDTO createUserDTO)
         {
 
             var obj = _httpContextAccessor.HttpContext;
@@ -36,11 +36,9 @@ namespace WorldSeed.Api.Controllers
                 .User.Claims
                 .FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
 
-            if(currentAccountId == null)
-            {
-                currentAccountId = obj.Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
-            }
+             var headers = obj.Request.Headers.ToList();
 
+            return headers;
 
             var account = _accountService.GetAccountById(int.Parse(currentAccountId));
 
