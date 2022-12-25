@@ -27,17 +27,27 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createUser")]
         public StatusCodeResult CreateUser(CreateUserDTO createUserDTO)
         {
-            var currentAccountId = int.Parse(User.FindFirst(ClaimTypes.Name).Value);
-            var account = _accountService.GetAccountById(currentAccountId);
-
-            var newUser = _userService.CreateUser(account.Id, createUserDTO.UserName);
-
-            if (newUser != null)
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
             {
-                return StatusCode(StatusCodes.Status201Created);
-            }
+                IEnumerable<Claim> claims = identity.Claims;
+                var currentAccountId = int.Parse(claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value);
 
+
+
+                var account = _accountService.GetAccountById(currentAccountId);
+
+                var newUser = _userService.CreateUser(account.Id, createUserDTO.UserName);
+
+                if (newUser != null)
+                {
+                    return StatusCode(StatusCodes.Status201Created);
+                }
+
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
             return StatusCode(StatusCodes.Status400BadRequest);
+
         }
     }
 }
