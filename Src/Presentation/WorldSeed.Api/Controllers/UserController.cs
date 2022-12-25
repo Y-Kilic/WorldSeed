@@ -32,7 +32,14 @@ namespace WorldSeed.Api.Controllers
         {
 
             var obj = _httpContextAccessor.HttpContext;
-            var currentAccountId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+            var currentAccountId = _httpContextAccessor.HttpContext
+                .User.Claims
+                .FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+
+            if(currentAccountId == null)
+            {
+                currentAccountId = obj.Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
+            }
 
 
             var account = _accountService.GetAccountById(int.Parse(currentAccountId));
