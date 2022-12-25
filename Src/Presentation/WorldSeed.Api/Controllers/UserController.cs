@@ -15,37 +15,35 @@ namespace WorldSeed.Api.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-        public UserController(IAccountService accountService, IUserService userService)
+
+        public UserController(IAccountService accountService, IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _accountService = accountService;
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [Authorize]
         [HttpPost("createUser")]
         public StatusCodeResult CreateUser(CreateUserDTO createUserDTO)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity != null)
+
+            var obj = _httpContextAccessor.HttpContext;
+            var currentAccountId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+
+
+            var account = _accountService.GetAccountById(int.Parse(currentAccountId));
+
+            var newUser = _userService.CreateUser(account.Id, createUserDTO.UserName);
+
+            if (newUser != null)
             {
-                IEnumerable<Claim> claims = identity.Claims;
-                var currentAccountId = int.Parse(claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value);
-
-
-
-                var account = _accountService.GetAccountById(currentAccountId);
-
-                var newUser = _userService.CreateUser(account.Id, createUserDTO.UserName);
-
-                if (newUser != null)
-                {
-                    return StatusCode(StatusCodes.Status201Created);
-                }
-
-                return StatusCode(StatusCodes.Status400BadRequest);
+                return StatusCode(StatusCodes.Status201Created);
             }
+
             return StatusCode(StatusCodes.Status400BadRequest);
 
         }
