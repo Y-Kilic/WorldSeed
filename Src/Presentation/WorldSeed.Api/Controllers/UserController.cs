@@ -36,9 +36,7 @@ namespace WorldSeed.Api.Controllers
                 .User.Claims
                 .FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
 
-             var headers = obj.Request.Headers.ToList();
-
-            return headers;
+            Console.WriteLine("Account id: " + currentAccountId);
 
             var account = _accountService.GetAccountById(int.Parse(currentAccountId));
 
