@@ -31,11 +31,31 @@ namespace WorldSeed.Api.Controllers
         public object CreateUser(CreateUserDTO createUserDTO)
         {
 
+            var testList = new List<String>();
+
             var obj = _httpContextAccessor.HttpContext;
             var currentAccountId = _httpContextAccessor.HttpContext
                 .User.Claims
                 .FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
 
+            testList.Add(currentAccountId ?? "null");
+
+            ClaimsPrincipal claimIdentity = Request.HttpContext.User;
+            testList.Add(claimIdentity.Claims.Count().ToString());
+            testList.Add(claimIdentity.Claims.Count().ToString());
+
+            var principal_name = Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"].FirstOrDefault();
+            var principal_Id = Request.Headers["X-MS-CLIENT-PRINCIPAL-ID"].FirstOrDefault();
+
+            testList.Add(principal_name ?? "principal_name is null");
+            testList.Add(principal_Id ?? "principal_Id is null");
+
+            var userIDToken = Request.Headers["X-MS-TOKEN-AAD-ID-TOKEN"];
+
+            testList.Add("userIDToken " + userIDToken);
+
+
+            return testList;
             Console.WriteLine("Account id: " + currentAccountId);
 
             var account = _accountService.GetAccountById(int.Parse(currentAccountId));
