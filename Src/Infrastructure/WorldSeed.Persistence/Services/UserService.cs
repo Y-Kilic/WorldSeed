@@ -20,6 +20,10 @@ namespace WorldSeed.Persistence.Services
 
         public User CreateUser(int accountId, string username)
         {
+
+            var userExist = _unitOfwork.Users.Find(u => u.Name.ToLower() == username.ToLower()).Count() > 0;
+            if (userExist) { return null; }
+
             var account = _unitOfwork.Accounts.Get(accountId);
 
             var newUser = new User()
