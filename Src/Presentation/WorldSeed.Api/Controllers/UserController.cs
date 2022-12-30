@@ -42,7 +42,7 @@ namespace WorldSeed.Api.Controllers
 
             ClaimsPrincipal claimIdentity = Request.HttpContext.User;
             testList.Add(claimIdentity.Claims.Count().ToString());
-            testList.Add(claimIdentity.Claims.Count().ToString());
+            return claimIdentity.Claims.ToList();
 
             var principal_name = Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"].FirstOrDefault();
             var principal_Id = Request.Headers["X-MS-CLIENT-PRINCIPAL-ID"].FirstOrDefault();
