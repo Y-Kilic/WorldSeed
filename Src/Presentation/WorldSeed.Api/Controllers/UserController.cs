@@ -6,6 +6,7 @@ using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Persistence.Services;
+using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Api.Controllers
 {
@@ -48,6 +49,33 @@ namespace WorldSeed.Api.Controllers
 
             return StatusCode(StatusCodes.Status400BadRequest);
 
+        }
+
+        [Authorize]
+        [HttpGet("getAccountUsers")]
+        public List<GetAccountUsersResponseDTO> GetAccountUsers()
+        {
+            var currentAccountId = int.Parse(Request.HttpContext.User.Claims.Where(c => c.Type == "accountId").FirstOrDefault().Value);
+
+            var account = _accountService.GetAccountById(currentAccountId);
+
+            var users = _userService.GetUsersbyAccountId(currentAccountId);
+
+            if (users.Count > 0)
+            {
+                var StrippedUserList = new List<GetAccountUsersResponseDTO>();
+
+                foreach (var user in users)
+                {
+                    StrippedUserList.Add(new GetAccountUsersResponseDTO() { Id = user.Id, Name = user.Name });
+                }
+
+                return StrippedUserList;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
