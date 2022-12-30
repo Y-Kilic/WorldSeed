@@ -40,7 +40,7 @@ namespace WorldSeed.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status201Created);
             }
-            else if(newUser == null) 
+            else if (newUser == null) 
             {
                 return StatusCode(StatusCodes.Status409Conflict);
             }
