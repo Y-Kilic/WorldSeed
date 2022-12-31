@@ -23,14 +23,14 @@ namespace WorldSeed.Persistence.Services
 
         public Account CreateAccount(string username, string email, byte[] passwordHash, byte[] passwordSalt)
         {
-            var userNameExist = _unitOfwork.Accounts.GetAll().Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            var userNameExist = _unitOfwork.Accounts.Find(u => u.UserName.Equals(username)).FirstOrDefault();
 
             if(userNameExist != null)
             {
                 return null;
             }
 
-            var emailExist = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(email)).FirstOrDefault();
+            var emailExist = _unitOfwork.Accounts.Find(u => u.Email.Equals(email)).FirstOrDefault();
 
             if (emailExist != null)
             {

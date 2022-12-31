@@ -10,6 +10,7 @@ namespace WorldSeed.Application.Interfaces.Services
 {
     public interface IUserService
     {
+        public List<User> GetUsersbyAccountId(int accountId);
         public User CreateUser(int accountId, string username);
     }
 }

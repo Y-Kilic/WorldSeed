@@ -18,6 +18,11 @@ namespace WorldSeed.Persistence.Services
             _unitOfwork = unitOfwork;
         }
 
+        public List<User> GetUsersbyAccountId(int accountId)
+        {
+            return _unitOfwork.Users.Find(u => u.Account.Id == accountId).ToList();
+        }
+
         public User CreateUser(int accountId, string username)
         {
 
