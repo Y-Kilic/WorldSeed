@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
+using WorldSeed.Common.Validators;
 using WorldSeed.Domain.Entities.AccountRelated;
 using WorldSeed.Persistence.Services;
 
@@ -31,6 +32,14 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register(AccountRegisterDTO request)
         {
+            AccountValidator accountValidator = new AccountValidator();
+            FluentValidation.Results.ValidationResult validationResult = accountValidator.Validate(request);
+
+            if (!validationResult.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var resultCreate =_accountService.CreateAccount(request.Username, request.Email, passwordHash, passwordSalt);
