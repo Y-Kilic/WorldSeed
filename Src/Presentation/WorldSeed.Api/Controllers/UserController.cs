@@ -7,6 +7,8 @@ using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Persistence.Services;
 using WorldSeed.Domain.Entities.UserRelated;
+using System.ComponentModel.DataAnnotations;
+using WorldSeed.Common.Validators;
 
 namespace WorldSeed.Api.Controllers
 {
@@ -31,6 +33,14 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createUser")]
         public object CreateUser(CreateUserDTO createUserDTO)
         {
+            UserValidator userValidator = new UserValidator();
+            FluentValidation.Results.ValidationResult validationResult = userValidator.Validate(createUserDTO);
+
+            if(!validationResult.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
             var currentAccountId = int.Parse(Request.HttpContext.User.Claims.Where(c => c.Type == "accountId").FirstOrDefault().Value);
             
             var account = _accountService.GetAccountById(currentAccountId);
