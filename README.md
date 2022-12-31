@@ -19,5 +19,8 @@ As a developer I dislike reinventing the wheel every time I am assigned to work 
 - REST API
 - Cross platform
 
+# Web client for the API
+https://github.com/Y-Kilic/Worldseed.Client.Blazor
+
 Credits to:
 https://github.com/jasontaylordev/NorthwindTraders (For his example and inspiration)
