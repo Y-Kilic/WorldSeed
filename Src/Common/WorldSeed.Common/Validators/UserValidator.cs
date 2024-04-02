@@ -12,9 +12,11 @@ namespace WorldSeed.Common.Validators
     {
         public UserValidator()
         {
-            RuleFor(user => user.UserName).NotNull();
-            RuleFor(user => user.UserName).NotEmpty();
+            RuleFor(user => user.UserName).NotNull().NotEmpty();
+            // No whitespaces
             RuleFor(user => user.UserName).Must(u => !u.Any(x => Char.IsWhiteSpace(x)));
+            // Only letters and numbers
+            RuleFor(user => user.UserName).Matches(@"^[a-zA-Z0-9]+$");
         }
 
     }
