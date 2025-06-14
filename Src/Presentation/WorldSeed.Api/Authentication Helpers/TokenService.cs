@@ -28,7 +28,7 @@ namespace WorldSeed.Api.Temp
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
+                _configuration.GetSection("AppSettings:Token").Value ?? string.Empty));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

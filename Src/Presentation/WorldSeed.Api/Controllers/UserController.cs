@@ -31,7 +31,7 @@ namespace WorldSeed.Api.Controllers
 
         [Authorize]
         [HttpPost("createUser")]
-        public object CreateUser(CreateUserDTO createUserDTO)
+        public IActionResult CreateUser(CreateUserDTO createUserDTO)
         {
             UserValidator userValidator = new UserValidator();
             FluentValidation.Results.ValidationResult validationResult = userValidator.Validate(createUserDTO);
@@ -41,9 +41,17 @@ namespace WorldSeed.Api.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            var currentAccountId = int.Parse(Request.HttpContext.User.Claims.Where(c => c.Type == "accountId").FirstOrDefault().Value);
-            
+            var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+            if (claim == null || !int.TryParse(claim.Value, out var currentAccountId))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
             var account = _accountService.GetAccountById(currentAccountId);
+            if (account == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
 
             var newUser = _userService.CreateUser(account.Id, createUserDTO.UserName);
 
@@ -65,27 +73,28 @@ namespace WorldSeed.Api.Controllers
         [HttpGet("getAccountUsers")]
         public List<GetAccountUsersResponseDTO> GetAccountUsers()
         {
-            var currentAccountId = int.Parse(Request.HttpContext.User.Claims.Where(c => c.Type == "accountId").FirstOrDefault().Value);
+            var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+            if (claim == null || !int.TryParse(claim.Value, out var currentAccountId))
+            {
+                return new List<GetAccountUsersResponseDTO>();
+            }
 
             var account = _accountService.GetAccountById(currentAccountId);
+            if (account == null)
+            {
+                return new List<GetAccountUsersResponseDTO>();
+            }
 
             var users = _userService.GetUsersbyAccountId(currentAccountId);
 
-            if (users.Count > 0)
-            {
-                var StrippedUserList = new List<GetAccountUsersResponseDTO>();
+            var strippedUserList = new List<GetAccountUsersResponseDTO>();
 
-                foreach (var user in users)
-                {
-                    StrippedUserList.Add(new GetAccountUsersResponseDTO() { Id = user.Id, Name = user.Name });
-                }
-
-                return StrippedUserList;
-            }
-            else
+            foreach (var user in users)
             {
-                return null;
+                strippedUserList.Add(new GetAccountUsersResponseDTO() { Id = user.Id, Name = user.Name });
             }
+
+            return strippedUserList;
         }
     }
 }

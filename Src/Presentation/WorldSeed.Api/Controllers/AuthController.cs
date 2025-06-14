@@ -30,7 +30,7 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<string>> Register(AccountRegisterDTO request)
+        public ActionResult<string> Register(AccountRegisterDTO request)
         {
             AccountValidator accountValidator = new AccountValidator();
             FluentValidation.Results.ValidationResult validationResult = accountValidator.Validate(request);
@@ -55,7 +55,7 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<RefreshTokenResponseDTO>> Login(AccountLoginRequestDTO request)
+        public ActionResult<LoginTokenResponseDTO> Login(AccountLoginRequestDTO request)
         {
 
             var result = _accountService.CheckLoginByEmail(request.Email, request.Password);
@@ -88,12 +88,11 @@ namespace WorldSeed.Api.Controllers
 
         [Authorize]
         [HttpPost("refresh-token")]
-        public async Task<ActionResult<RefreshTokenResponseDTO>> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
+        public ActionResult<RefreshTokenResponseDTO> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
 
-            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.Name).Value);
-
-            if (currentUserId == null)
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var currentUserId))
             {
                 return BadRequest("Refreshtoken not valid.");
 
