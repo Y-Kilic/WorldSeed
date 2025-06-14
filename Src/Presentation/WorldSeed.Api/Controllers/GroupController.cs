@@ -45,5 +45,89 @@ namespace WorldSeed.Api.Controllers
 
             return StatusCode(StatusCodes.Status400BadRequest);
         }
+
+        [Authorize]
+        [HttpPost("join")]
+        public StatusCodeResult JoinGroup(JoinGroupRequestDto joinDto)
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var result = _groupService.JoinGroup(joinDto.GroupId, account.DefaultUser.Id);
+            if (result != null)
+            {
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+
+        [Authorize]
+        [HttpPost("leave")]
+        public StatusCodeResult LeaveGroup(JoinGroupRequestDto dto)
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var success = _groupService.LeaveGroup(dto.GroupId, account.DefaultUser.Id);
+            return success ? StatusCode(StatusCodes.Status200OK) : StatusCode(StatusCodes.Status400BadRequest);
+        }
+
+        [Authorize]
+        [HttpPost("updateName")]
+        public StatusCodeResult UpdateGroupName(UpdateGroupNameDto dto)
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var success = _groupService.UpdateGroupName(dto.GroupId, dto.NewName, account.DefaultUser.Id);
+            return success ? StatusCode(StatusCodes.Status200OK) : StatusCode(StatusCodes.Status400BadRequest);
+        }
+
+        [Authorize]
+        [HttpPost("rank")]
+        public StatusCodeResult ChangeRank(ChangeMemberRankDto dto)
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var success = _groupService.ChangeMemberRank(dto.GroupId, account.DefaultUser.Id, dto.TargetUserId, dto.NewRank);
+            return success ? StatusCode(StatusCodes.Status200OK) : StatusCode(StatusCodes.Status400BadRequest);
+        }
     }
 }

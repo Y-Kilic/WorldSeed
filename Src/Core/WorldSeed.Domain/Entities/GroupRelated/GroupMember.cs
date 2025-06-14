@@ -13,6 +13,7 @@ namespace WorldSeed.Domain.Entities.GroupRelated
         public int Id { get; set; }
         public Group Group { get; set; }
         public User User { get; set; }
+        public GroupRank Rank { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

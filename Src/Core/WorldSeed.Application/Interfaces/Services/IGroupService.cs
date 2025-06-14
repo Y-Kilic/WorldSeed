@@ -11,5 +11,9 @@ namespace WorldSeed.Application.Interfaces.Services
     public interface IGroupService
     {
         public Group CreateGroup(string name, long userId);
+        public GroupMember JoinGroup(int groupId, long userId);
+        public bool LeaveGroup(int groupId, long userId);
+        public bool UpdateGroupName(int groupId, string newName, long actorUserId);
+        public bool ChangeMemberRank(int groupId, long actorUserId, long targetUserId, GroupRank newRank);
     }
 }
