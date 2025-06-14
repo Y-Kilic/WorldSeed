@@ -9,5 +9,6 @@ namespace WorldSeed.Application.DTOS
     public class CreateForumDTO
     {
         public string Name { get; set; }
+        public int? GroupId { get; set; }
     }
 }

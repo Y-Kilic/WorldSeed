@@ -10,6 +10,7 @@ namespace WorldSeed.Application.Interfaces
         IGroupRepository Groups { get; }
         IGroupMemberRepository GroupMembers { get; }
         IUserRepository Users { get; }
+        IForumRepository Forums { get; }
 
 
         int SaveChanges();
