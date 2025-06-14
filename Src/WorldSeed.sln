@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Persistence", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldSeed.Api", "Presentation\WorldSeed.Api\WorldSeed.Api.csproj", "{75ED89D1-89E6-4F9B-B098-E5CD98E67FBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldSeed.Tests", "..\Tests\WorldSeed.Tests\WorldSeed.Tests.csproj", "{1A2FEAB8-4878-405C-8A7E-81F1CBC3DA12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{75ED89D1-89E6-4F9B-B098-E5CD98E67FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75ED89D1-89E6-4F9B-B098-E5CD98E67FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75ED89D1-89E6-4F9B-B098-E5CD98E67FBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2FEAB8-4878-405C-8A7E-81F1CBC3DA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2FEAB8-4878-405C-8A7E-81F1CBC3DA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2FEAB8-4878-405C-8A7E-81F1CBC3DA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2FEAB8-4878-405C-8A7E-81F1CBC3DA12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
