@@ -8,6 +8,7 @@ namespace WorldSeed.Application.Interfaces
     {
         IAccountRepository Accounts { get; }
         IGroupRepository Groups { get; }
+        IGroupMemberRepository GroupMembers { get; }
         IUserRepository Users { get; }
 
 
