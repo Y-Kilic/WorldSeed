@@ -14,14 +14,29 @@ namespace WorldSeed.Api.Controllers
         private readonly IGroupService _groupService;
         private readonly IAccountService _accountService;
 
+        public GroupController(IGroupService groupService, IAccountService accountService)
+        {
+            _groupService = groupService;
+            _accountService = accountService;
+        }
+
         [Authorize]
         [HttpPost("createGroup")]
         public StatusCodeResult CreateGroup(CreateGroupRequestDto createGroupRequestDto)
         {
-            var currentAccountId = int.Parse(User.FindFirst(ClaimTypes.Name).Value);
-            var defaultAccountUser = _accountService.GetAccountById(currentAccountId).DefaultUser;
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var currentAccountId))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
 
-            var createdGroup = _groupService.CreateGroup(createGroupRequestDto.Name, defaultAccountUser.Id);
+            var account = _accountService.GetAccountById(currentAccountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
+            var createdGroup = _groupService.CreateGroup(createGroupRequestDto.Name, account.DefaultUser.Id);
 
             if (createdGroup != null)
             {
