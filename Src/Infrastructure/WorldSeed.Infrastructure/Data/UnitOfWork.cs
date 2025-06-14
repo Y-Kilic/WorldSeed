@@ -18,13 +18,13 @@ namespace WorldSeed.Infrastructure.Data
             Accounts = new AccountRepository(_context);
             Groups = new GroupRepository(_context);
             Users = new UserRepository(_context);
-
-
+            Forums = new ForumRepository(_context);
         }
 
         public IAccountRepository Accounts { get; private set; }
         public IGroupRepository Groups { get; private set; }
         public IUserRepository Users { get; private set; }
+        public IForumRepository Forums { get; private set; }
 
         public int SaveChanges()
         {

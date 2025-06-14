@@ -11,11 +11,14 @@ namespace WorldSeed.Api.Controllers
     {
         private readonly IForumService _forumService;
 
+        public ForumController(IForumService forumService)
+        {
+            _forumService = forumService;
+        }
+
         [HttpPost("createForum")]
         public StatusCodeResult CreateGroup(CreateForumDTO createForumDTO)
         {
-            _forumService.CreateForum(createForumDTO);
-
             if (_forumService.CreateForum(createForumDTO))
             {
                 return StatusCode(StatusCodes.Status201Created);

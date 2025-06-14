@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WorldSeed.Domain.Entities.ForumRelated;
+using WorldSeed.Domain.Interfaces.Repositories;
+using WorldSeed.Infrastructure.Data;
 
 namespace WorldSeed.Infrastructure.Repositories
 {
-    internal class ForumRepository
+    public class ForumRepository : Repository<Forum>, IForumRepository
     {
+        public ForumRepository(ApplicationDbContext context) : base(context)
+        {
+        }
+
+        ApplicationDbContext ApplicationDbContext
+        {
+            get { return Context as ApplicationDbContext; }
+        }
     }
 }

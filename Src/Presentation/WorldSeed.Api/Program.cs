@@ -54,6 +54,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Dependency injection
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IGroupService, GroupService>();
+builder.Services.AddTransient<IForumService, ForumService>();
 
 builder.Services.AddTransient<ITokenService, TokenService>();
 

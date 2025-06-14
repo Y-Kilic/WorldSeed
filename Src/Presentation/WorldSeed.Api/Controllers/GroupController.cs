@@ -14,6 +14,12 @@ namespace WorldSeed.Api.Controllers
         private readonly IGroupService _groupService;
         private readonly IAccountService _accountService;
 
+        public GroupController(IGroupService groupService, IAccountService accountService)
+        {
+            _groupService = groupService;
+            _accountService = accountService;
+        }
+
         [Authorize]
         [HttpPost("createGroup")]
         public StatusCodeResult CreateGroup(CreateGroupRequestDto createGroupRequestDto)
