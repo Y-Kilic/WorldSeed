@@ -24,3 +24,14 @@ https://github.com/Y-Kilic/Worldseed.Client.Blazor
 
 Credits to:
 https://github.com/jasontaylordev/NorthwindTraders (For his example and inspiration)
+
+## Running tests
+
+This repository targets **.NET 8**. Make sure the appropriate SDK is installed
+or use the version specified in `global.json`.
+
+To execute the unit tests run:
+
+```bash
+dotnet test Src/WorldSeed.sln -c Release
+```
