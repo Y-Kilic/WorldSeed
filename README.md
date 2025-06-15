@@ -18,6 +18,7 @@ As a developer I dislike reinventing the wheel every time I am assigned to work 
 - JWT bearer token authentication
 - REST API
 - Cross platform
+- API base URL configurable via `ApiSettings:Url` in `appsettings.json`
 
 # Web client for the API
 https://github.com/Y-Kilic/Worldseed.Client.Blazor
