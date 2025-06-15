@@ -14,9 +14,10 @@ using WorldSeed.Infrastructure.Repositories;
 using WorldSeed.Persistence;
 using WorldSeed.Persistence.Services;
 
+var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var initialConfig = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true)
-    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable(\"ASPNETCORE_ENVIRONMENT\")}.json", optional: true)
+    .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
     .AddEnvironmentVariables()
     .Build();
 
