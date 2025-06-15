@@ -9,7 +9,9 @@ namespace WorldSeed.Domain.Entities.ForumRelated
     public class ForumCategory
     {
         public int Id { get; set; }
+        public int ForumId { get; set; }
         public Forum Forum { get; set; }
+        public string Name { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

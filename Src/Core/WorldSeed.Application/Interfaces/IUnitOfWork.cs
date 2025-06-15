@@ -11,6 +11,9 @@ namespace WorldSeed.Application.Interfaces
         IGroupMemberRepository GroupMembers { get; }
         IUserRepository Users { get; }
         IForumRepository Forums { get; }
+        IForumCategoryRepository ForumCategories { get; }
+        IForumCategoryThreadRepository ForumCategoryThreads { get; }
+        IForumCategoryThreadPostRepository ForumCategoryThreadPosts { get; }
 
 
         int SaveChanges();

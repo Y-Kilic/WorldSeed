@@ -20,8 +20,9 @@ namespace WorldSeed.Infrastructure.Data
             GroupMembers = new GroupMemberRepository(_context);
             Users = new UserRepository(_context);
             Forums = new ForumRepository(_context);
-
-
+            ForumCategories = new ForumCategoryRepository(_context);
+            ForumCategoryThreads = new ForumCategoryThreadRepository(_context);
+            ForumCategoryThreadPosts = new ForumCategoryThreadPostRepository(_context);
         }
 
         public IAccountRepository Accounts { get; private set; }
@@ -29,6 +30,9 @@ namespace WorldSeed.Infrastructure.Data
         public IGroupMemberRepository GroupMembers { get; private set; }
         public IUserRepository Users { get; private set; }
         public IForumRepository Forums { get; private set; }
+        public IForumCategoryRepository ForumCategories { get; private set; }
+        public IForumCategoryThreadRepository ForumCategoryThreads { get; private set; }
+        public IForumCategoryThreadPostRepository ForumCategoryThreadPosts { get; private set; }
 
         public int SaveChanges()
         {
