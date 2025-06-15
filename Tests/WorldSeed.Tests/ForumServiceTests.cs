@@ -69,4 +69,59 @@ public class ForumServiceTests
         Assert.False(result);
         Assert.Empty(context.Forums);
     }
+    [Fact]
+    public void CreateCategory_ShouldPersist()
+    {
+        using var context = CreateContext();
+        var service = CreateService(context);
+        var forumDto = new CreateForumDTO { Name = "Forum" };
+        service.CreateForum(forumDto);
+        var forum = context.Forums.First();
+
+        var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
+
+        Assert.NotNull(category);
+        Assert.Equal("General", category.Name);
+        Assert.Equal(forum.Id, category.ForumId);
+    }
+
+    [Fact]
+    public void CreateThread_ShouldPersist()
+    {
+        using var context = CreateContext();
+        var user = new User { Id = 1, Name = "owner", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        context.Users.Add(user);
+        context.SaveChanges();
+        var service = CreateService(context);
+        service.CreateForum(new CreateForumDTO { Name = "Forum" });
+        var forum = context.Forums.First();
+        var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
+
+        var thread = service.CreateThread(new CreateForumThreadDTO { ForumCategoryId = category.Id, OwnerId = user.Id, Title = "Welcome" });
+
+        Assert.NotNull(thread);
+        Assert.Equal("Welcome", thread.Title);
+        Assert.Equal(user.Id, thread.OwnerId);
+    }
+
+    [Fact]
+    public void CreatePost_ShouldPersist()
+    {
+        using var context = CreateContext();
+        var user = new User { Id = 1, Name = "owner", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        context.Users.Add(user);
+        context.SaveChanges();
+        var service = CreateService(context);
+        service.CreateForum(new CreateForumDTO { Name = "Forum" });
+        var forum = context.Forums.First();
+        var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
+        var thread = service.CreateThread(new CreateForumThreadDTO { ForumCategoryId = category.Id, OwnerId = user.Id, Title = "Welcome" });
+
+        var post = service.CreatePost(new CreateForumPostDTO { ForumCategoryThreadId = thread.Id, OwnerId = user.Id, Content = "Hello" });
+
+        Assert.NotNull(post);
+        Assert.Equal("Hello", post.Content);
+        var posts = service.GetPosts(thread.Id);
+        Assert.Single(posts);
+    }
 }

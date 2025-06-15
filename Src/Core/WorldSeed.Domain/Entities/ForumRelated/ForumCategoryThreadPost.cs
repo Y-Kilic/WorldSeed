@@ -10,8 +10,11 @@ namespace WorldSeed.Domain.Entities.ForumRelated
     public class ForumCategoryThreadPost
     {
         public int Id { get; set; }
+        public int ForumCategoryThreadId { get; set; }
         public ForumCategoryThread ForumCategoryThread { get; set; }
+        public int OwnerId { get; set; }
         public User Owner { get; set; }
+        public string Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
