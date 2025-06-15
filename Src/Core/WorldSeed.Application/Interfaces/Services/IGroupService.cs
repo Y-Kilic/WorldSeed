@@ -15,5 +15,8 @@ namespace WorldSeed.Application.Interfaces.Services
         public bool LeaveGroup(int groupId, long userId);
         public bool UpdateGroupName(int groupId, string newName, long actorUserId);
         public bool ChangeMemberRank(int groupId, long actorUserId, long targetUserId, GroupRank newRank);
+        public IEnumerable<Group> GetGroupsForUser(long userId);
+        public IEnumerable<Group> GetJoinableGroups(long userId);
+        public IEnumerable<GroupMember> GetGroupMembers(int groupId);
     }
 }

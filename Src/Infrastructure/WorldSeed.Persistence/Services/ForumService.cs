@@ -19,24 +19,27 @@ namespace WorldSeed.Persistence.Services
 
         public bool CreateForum(CreateForumDTO createForumDTO)
         {
+            if (!createForumDTO.GroupId.HasValue)
+            {
+                return false;
+            }
+
+            var group = _unitOfWork.Groups.Get(createForumDTO.GroupId.Value);
+            if (group == null)
+            {
+                return false;
+            }
+
             var forum = new Forum
             {
                 Name = createForumDTO.Name,
+                Group = group,
+                GroupId = group.Id,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
 
-            if (createForumDTO.GroupId.HasValue)
-            {
-                var group = _unitOfWork.Groups.Get(createForumDTO.GroupId.Value);
-                if (group == null)
-                {
-                    return false;
-                }
-                forum.Group = group;
-                forum.GroupId = group.Id;
-                group.Forum = forum;
-            }
+            group.Forum = forum;
 
             _unitOfWork.Forums.Add(forum);
             _unitOfWork.SaveChanges();

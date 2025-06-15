@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Linq;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.GroupRelated;
@@ -44,6 +45,71 @@ namespace WorldSeed.Api.Controllers
             }
 
             return StatusCode(StatusCodes.Status400BadRequest);
+        }
+
+        [Authorize]
+        [HttpGet("mine")]
+        public IEnumerable<GroupDto> GetMyGroups()
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return Enumerable.Empty<GroupDto>();
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return Enumerable.Empty<GroupDto>();
+            }
+
+            return _groupService.GetGroupsForUser(account.DefaultUser.Id)
+                .Select(g => new GroupDto { Id = g.Id, Name = g.Name });
+        }
+
+        [Authorize]
+        [HttpGet("joinable")]
+        public IEnumerable<GroupDto> GetJoinableGroups()
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return Enumerable.Empty<GroupDto>();
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return Enumerable.Empty<GroupDto>();
+            }
+
+            return _groupService.GetJoinableGroups(account.DefaultUser.Id)
+                .Select(g => new GroupDto { Id = g.Id, Name = g.Name });
+        }
+
+        [Authorize]
+        [HttpGet("{groupId}/members")]
+        public IEnumerable<GroupMemberDto> GetGroupMembers(int groupId)
+        {
+            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!int.TryParse(claimValue, out var accountId))
+            {
+                return Enumerable.Empty<GroupMemberDto>();
+            }
+
+            var account = _accountService.GetAccountById(accountId);
+            if (account == null || account.DefaultUser == null)
+            {
+                return Enumerable.Empty<GroupMemberDto>();
+            }
+
+            return _groupService.GetGroupMembers(groupId)
+                .Select(m => new GroupMemberDto
+                {
+                    UserId = m.User.Id,
+                    UserName = m.User.Name,
+                    Rank = m.Rank
+                });
         }
 
         [Authorize]
