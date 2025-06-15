@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorldSeed.Application.Interfaces.Repositories;
-using WorldSeed.Domain;
 using WorldSeed.Domain.Entities.AccountRelated;
 using WorldSeed.Infrastructure.Data;
 

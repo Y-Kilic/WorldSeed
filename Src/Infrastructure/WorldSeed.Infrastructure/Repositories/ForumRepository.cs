@@ -1,5 +1,5 @@
 using WorldSeed.Domain.Entities.ForumRelated;
-using WorldSeed.Domain.Interfaces.Repositories;
+using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Infrastructure.Data;
 
 namespace WorldSeed.Infrastructure.Repositories
