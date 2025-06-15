@@ -24,18 +24,15 @@ public class ForumServiceTests
     }
 
     [Fact]
-    public void CreateForum_NoGroup_ShouldPersistForum()
+    public void CreateForum_NoGroup_ShouldFail()
     {
         using var context = CreateContext();
         var service = CreateService(context);
 
         var result = service.CreateForum(new CreateForumDTO { Name = "Test" });
 
-        Assert.True(result);
-        Assert.Equal(1, context.Forums.Count());
-        var forum = context.Forums.First();
-        Assert.Equal("Test", forum.Name);
-        Assert.Null(forum.Group);
+        Assert.False(result);
+        Assert.Empty(context.Forums);
     }
 
     [Fact]
@@ -73,9 +70,13 @@ public class ForumServiceTests
     public void CreateCategory_ShouldPersist()
     {
         using var context = CreateContext();
+        var user = new User { Id = 1, Name = "owner", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        var group = new Group { Id = 1, Name = "grp", Owner = user, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        context.Users.Add(user);
+        context.Groups.Add(group);
+        context.SaveChanges();
         var service = CreateService(context);
-        var forumDto = new CreateForumDTO { Name = "Forum" };
-        service.CreateForum(forumDto);
+        service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
         var forum = context.Forums.First();
 
         var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
@@ -90,10 +91,12 @@ public class ForumServiceTests
     {
         using var context = CreateContext();
         var user = new User { Id = 1, Name = "owner", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        var group = new Group { Id = 1, Name = "grp", Owner = user, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
         context.Users.Add(user);
+        context.Groups.Add(group);
         context.SaveChanges();
         var service = CreateService(context);
-        service.CreateForum(new CreateForumDTO { Name = "Forum" });
+        service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
         var forum = context.Forums.First();
         var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
 
@@ -109,10 +112,12 @@ public class ForumServiceTests
     {
         using var context = CreateContext();
         var user = new User { Id = 1, Name = "owner", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        var group = new Group { Id = 1, Name = "grp", Owner = user, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
         context.Users.Add(user);
+        context.Groups.Add(group);
         context.SaveChanges();
         var service = CreateService(context);
-        service.CreateForum(new CreateForumDTO { Name = "Forum" });
+        service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
         var forum = context.Forums.First();
         var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
         var thread = service.CreateThread(new CreateForumThreadDTO { ForumCategoryId = category.Id, OwnerId = user.Id, Title = "Welcome" });

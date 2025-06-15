@@ -20,12 +20,12 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createForum")]
         public StatusCodeResult CreateGroup(CreateForumDTO createForumDTO)
         {
-            if (_forumService.CreateForum(createForumDTO))
+            if (!_forumService.CreateForum(createForumDTO))
             {
-                return StatusCode(StatusCodes.Status201Created);
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            return StatusCode(StatusCodes.Status400BadRequest);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPost("createCategory")]

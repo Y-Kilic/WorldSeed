@@ -162,5 +162,28 @@ namespace WorldSeed.Persistence.Services
             _unitOfwork.SaveChanges();
             return true;
         }
+
+        public IEnumerable<Group> GetGroupsForUser(long userId)
+        {
+            return _unitOfwork.GroupMembers
+                .Find(m => m.User.Id == userId)
+                .Select(m => m.Group);
+        }
+
+        public IEnumerable<Group> GetJoinableGroups(long userId)
+        {
+            var joinedIds = _unitOfwork.GroupMembers
+                .Find(m => m.User.Id == userId)
+                .Select(m => m.Group.Id)
+                .ToHashSet();
+
+            return _unitOfwork.Groups.GetAll()
+                .Where(g => !joinedIds.Contains(g.Id));
+        }
+
+        public IEnumerable<GroupMember> GetGroupMembers(int groupId)
+        {
+            return _unitOfwork.GroupMembers.Find(m => m.Group.Id == groupId);
+        }
     }
 }
