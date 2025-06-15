@@ -6,7 +6,6 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.Interfaces;
-using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.UserRelated;
 using WorldSeed.Infrastructure.Data;

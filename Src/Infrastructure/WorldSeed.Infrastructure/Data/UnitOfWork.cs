@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Repositories;
-using WorldSeed.Domain.Interfaces.Repositories;
 using WorldSeed.Infrastructure.Repositories;
 
 namespace WorldSeed.Infrastructure.Data
