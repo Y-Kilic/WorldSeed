@@ -26,11 +26,23 @@ namespace WorldSeed.Persistence.Services
                 return null!;
             }
 
+            var forum = new Domain.Entities.ForumRelated.Forum
+            {
+                Name = $"{groupName} Forum",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
             var newGroup = new Group()
             {
                 Name = groupName,
-                Owner = userFromDB
+                Owner = userFromDB,
+                Forum = forum,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
+
+            forum.Group = newGroup;
 
             var ownerMembership = new GroupMember
             {
@@ -41,6 +53,7 @@ namespace WorldSeed.Persistence.Services
                 UpdatedAt = DateTime.UtcNow
             };
 
+            _unitOfwork.Forums.Add(forum);
             _unitOfwork.Groups.Add(newGroup);
             _unitOfwork.GroupMembers.Add(ownerMembership);
             _unitOfwork.SaveChanges();

@@ -37,6 +37,11 @@ namespace WorldSeed.Infrastructure.Data
                 .HasMany<User>()
                 .WithOne(u => u.Account);
 
+            builder.Entity<Group>()
+                .HasOne(g => g.Forum)
+                .WithOne(f => f.Group)
+                .HasForeignKey<Forum>(f => f.GroupId);
+
             base.OnModelCreating(builder);
         }
     }

@@ -12,8 +12,9 @@ namespace WorldSeed.Domain.Entities.GroupRelated
     public class Group
     {
         public int Id { get; set; }
-        public required User Owner { get; set; }
-        public required string Name { get; set; }
+        public User Owner { get; set; }
+        public string Name { get; set; }
+        public ForumRelated.Forum? Forum { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

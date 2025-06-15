@@ -19,6 +19,7 @@ namespace WorldSeed.Infrastructure.Data
             Groups = new GroupRepository(_context);
             GroupMembers = new GroupMemberRepository(_context);
             Users = new UserRepository(_context);
+            Forums = new ForumRepository(_context);
 
 
         }
@@ -27,6 +28,7 @@ namespace WorldSeed.Infrastructure.Data
         public IGroupRepository Groups { get; private set; }
         public IGroupMemberRepository GroupMembers { get; private set; }
         public IUserRepository Users { get; private set; }
+        public IForumRepository Forums { get; private set; }
 
         public int SaveChanges()
         {
