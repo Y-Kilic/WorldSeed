@@ -29,6 +29,7 @@
     <ProjectReference Include="../../Src/Core/WorldSeed.Application/WorldSeed.Application.csproj" />
     <ProjectReference Include="../../Src/Infrastructure/WorldSeed.Infrastructure/WorldSeed.Infrastructure.csproj" />
     <ProjectReference Include="../../Src/Infrastructure/WorldSeed.Persistence/WorldSeed.Persistence.csproj" />
+    <ProjectReference Include="../../Src/Presentation/WorldSeed.Api/WorldSeed.Api.csproj" />
   </ItemGroup>
 
 </Project>
