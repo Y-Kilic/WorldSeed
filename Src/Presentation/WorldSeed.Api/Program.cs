@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Services;
@@ -12,6 +13,19 @@ using WorldSeed.Infrastructure.Data;
 using WorldSeed.Infrastructure.Repositories;
 using WorldSeed.Persistence;
 using WorldSeed.Persistence.Services;
+
+var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+var initialConfig = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true)
+    .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build();
+
+var apiUrl = initialConfig.GetValue<string>("ApiSettings:Url");
+if (!string.IsNullOrWhiteSpace(apiUrl))
+{
+    Environment.SetEnvironmentVariable("ASPNETCORE_URLS", apiUrl);
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
