@@ -71,9 +71,7 @@ namespace WorldSeed.Persistence.Services
         public ForumCategoryThread CreateThread(CreateForumThreadDTO dto)
         {
             var category = _unitOfWork.ForumCategories.Get(dto.ForumCategoryId);
-            var owner = dto.OwnerId.HasValue
-                ? _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == dto.OwnerId.Value)
-                : null;
+            var owner = _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == dto.OwnerId);
             if (category == null || owner == null)
             {
                 return null!;
@@ -98,9 +96,7 @@ namespace WorldSeed.Persistence.Services
         public ForumCategoryThreadPost CreatePost(CreateForumPostDTO dto)
         {
             var thread = _unitOfWork.ForumCategoryThreads.Get(dto.ForumCategoryThreadId);
-            var owner = dto.OwnerId.HasValue
-                ? _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == dto.OwnerId.Value)
-                : null;
+            var owner = _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == dto.OwnerId);
             if (thread == null || owner == null)
             {
                 return null!;

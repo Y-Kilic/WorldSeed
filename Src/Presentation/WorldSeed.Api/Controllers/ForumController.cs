@@ -49,7 +49,7 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createThread")]
         public ActionResult<ForumCategoryThread> CreateThread(CreateForumThreadDTO dto)
         {
-            if (!dto.OwnerId.HasValue)
+            if (dto.OwnerId <= 0)
             {
                 var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
                 if (int.TryParse(claimValue, out var accountId))
@@ -74,7 +74,7 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createPost")]
         public ActionResult<ForumCategoryThreadPost> CreatePost(CreateForumPostDTO dto)
         {
-            if (!dto.OwnerId.HasValue)
+            if (dto.OwnerId <= 0)
             {
                 var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
                 if (int.TryParse(claimValue, out var accountId))
