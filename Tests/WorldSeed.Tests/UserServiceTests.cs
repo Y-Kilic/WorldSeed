@@ -72,5 +72,19 @@ public class UserServiceTests
 
         Assert.Equal(2, result.Count);
     }
+
+    [Fact]
+    public void CreateUser_ShouldSetDefaultUser()
+    {
+        using var context = CreateContext();
+        var account = new Account { Id = 1, UserName = "user", Email = "e" };
+        context.Accounts.Add(account);
+        context.SaveChanges();
+        var service = CreateService(context);
+
+        var user = service.CreateUser(account.Id, "name");
+
+        Assert.Equal(user.Id, context.Accounts.First().DefaultUserId);
+    }
 }
 

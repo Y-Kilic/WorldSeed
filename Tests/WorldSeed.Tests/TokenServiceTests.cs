@@ -3,6 +3,7 @@ using WorldSeed.Api.Temp;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Domain.Entities.AccountRelated;
+using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Tests;
 
@@ -23,6 +24,8 @@ public class TokenServiceTests
         public Account GetAccountByEmail(string email) => throw new NotImplementedException();
         public Account GetAccountByUsername(string username) => throw new NotImplementedException();
         public void UpdateTokens(int accountId, string refreshToken, DateTime expires, DateTime created) => throw new NotImplementedException();
+        public User? GetDefaultUser(int accountId) => _account.DefaultUser;
+        public bool SetDefaultUser(int accountId, int userId) => throw new NotImplementedException();
     }
 
     private static TokenService CreateService(Account account)

@@ -9,6 +9,9 @@ using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.AccountRelated;
+using WorldSeed.Domain.Entities.UserRelated;
+
+#nullable enable
 
 namespace WorldSeed.Persistence.Services
 {
@@ -106,6 +109,30 @@ namespace WorldSeed.Persistence.Services
             account.TokenCreated = created;
 
             _unitOfwork.SaveChanges();
+        }
+
+        public User? GetDefaultUser(int accountId)
+        {
+            return _unitOfwork.Accounts.GetAll()
+                .Where(a => a.Id == accountId)
+                .Select(a => a.DefaultUser)
+                .FirstOrDefault();
+        }
+
+        public bool SetDefaultUser(int accountId, int userId)
+        {
+            var account = _unitOfwork.Accounts.Get(accountId);
+            var user = _unitOfwork.Users.GetAll()
+                .FirstOrDefault(u => u.Id == userId && u.Account.Id == accountId);
+            if (account == null || user == null)
+            {
+                return false;
+            }
+
+            account.DefaultUser = user;
+            account.DefaultUserId = user.Id;
+            _unitOfwork.SaveChanges();
+            return true;
         }
     }
 }
