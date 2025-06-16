@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WorldSeed.Domain.Entities.GroupRelated;
 
+#nullable enable
+
 namespace WorldSeed.Domain.Entities.ForumRelated
 {
     public class Forum

@@ -7,6 +7,8 @@ using WorldSeed.Domain.Entities.UserRelated;
 using WorldSeed.Domain.Entities.ForumRelated;
 using WorldSeed.Domain.Entities.AccountRelated;
 
+#nullable enable
+
 namespace WorldSeed.Domain.Entities.GroupRelated
 {
     public class Group

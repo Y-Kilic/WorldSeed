@@ -3,6 +3,8 @@ using WorldSeed.Application.DTOS;
 using WorldSeed.Domain.Entities.AccountRelated;
 using WorldSeed.Domain.Entities.UserRelated;
 
+#nullable enable
+
 namespace WorldSeed.Application.Interfaces.Services
 {
     public interface IAccountService

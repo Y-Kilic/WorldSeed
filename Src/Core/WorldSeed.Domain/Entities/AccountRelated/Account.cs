@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using WorldSeed.Domain.Entities.UserRelated;
 
+#nullable enable
+
 namespace WorldSeed.Domain.Entities.AccountRelated
 {
     public class Account
