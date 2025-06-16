@@ -21,7 +21,8 @@ namespace WorldSeed.Domain.Entities.AccountRelated
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
-        public User DefaultUser { get; set; }
+        public int? DefaultUserId { get; set; }
+        public User? DefaultUser { get; set; }
         public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }

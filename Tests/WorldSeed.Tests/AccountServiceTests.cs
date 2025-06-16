@@ -114,5 +114,21 @@ public class AccountServiceTests
         Assert.Equal(expires, refreshed.TokenExpires);
         Assert.Equal(created, refreshed.TokenCreated);
     }
+
+    [Fact]
+    public void SetDefaultUser_ShouldUpdateDefaultUser()
+    {
+        using var context = CreateContext();
+        var service = CreateService(context);
+        var (hash, salt) = Hash("pass");
+        var account = service.CreateAccount("user", "user@example.com", hash, salt);
+        var userService = new UserService(new UnitOfWork(context));
+        var user = userService.CreateUser(account.Id, "u1");
+
+        var result = service.SetDefaultUser(account.Id, user.Id);
+
+        Assert.True(result);
+        Assert.Equal(user.Id, context.Accounts.First().DefaultUserId);
+    }
 }
 

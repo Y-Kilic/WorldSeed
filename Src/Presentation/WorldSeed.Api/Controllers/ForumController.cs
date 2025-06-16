@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.ForumRelated;
@@ -11,10 +13,12 @@ namespace WorldSeed.Api.Controllers
     public class ForumController : ControllerBase
     {
         private readonly IForumService _forumService;
+        private readonly IAccountService _accountService;
 
-        public ForumController(IForumService forumService)
+        public ForumController(IForumService forumService, IAccountService accountService)
         {
             _forumService = forumService;
+            _accountService = accountService;
         }
 
         [HttpPost("createForum")]
@@ -28,6 +32,7 @@ namespace WorldSeed.Api.Controllers
             return StatusCode(StatusCodes.Status201Created);
         }
 
+        [Authorize]
         [HttpPost("createCategory")]
         public ActionResult<ForumCategory> CreateCategory(CreateForumCategoryDTO dto)
         {
@@ -40,9 +45,23 @@ namespace WorldSeed.Api.Controllers
             return Created($"/api/forum/{dto.ForumId}/categories", result);
         }
 
+        [Authorize]
         [HttpPost("createThread")]
         public ActionResult<ForumCategoryThread> CreateThread(CreateForumThreadDTO dto)
         {
+            if (!dto.OwnerId.HasValue)
+            {
+                var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (int.TryParse(claimValue, out var accountId))
+                {
+                    var account = _accountService.GetAccountById(accountId);
+                    if (account != null && account.DefaultUser != null)
+                    {
+                        dto.OwnerId = account.DefaultUser.Id;
+                    }
+                }
+            }
+
             var result = _forumService.CreateThread(dto);
             if (result == null)
             {
@@ -51,9 +70,23 @@ namespace WorldSeed.Api.Controllers
             return Created($"/api/forum/thread/{result.Id}", result);
         }
 
+        [Authorize]
         [HttpPost("createPost")]
         public ActionResult<ForumCategoryThreadPost> CreatePost(CreateForumPostDTO dto)
         {
+            if (!dto.OwnerId.HasValue)
+            {
+                var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (int.TryParse(claimValue, out var accountId))
+                {
+                    var account = _accountService.GetAccountById(accountId);
+                    if (account != null && account.DefaultUser != null)
+                    {
+                        dto.OwnerId = account.DefaultUser.Id;
+                    }
+                }
+            }
+
             var result = _forumService.CreatePost(dto);
             if (result == null)
             {

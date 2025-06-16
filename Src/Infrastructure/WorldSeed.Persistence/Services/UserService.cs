@@ -41,6 +41,10 @@ namespace WorldSeed.Persistence.Services
             _unitOfwork.Users.Add(newUser);
             _unitOfwork.SaveChanges();
 
+            account.DefaultUser = newUser;
+            account.DefaultUserId = newUser.Id;
+            _unitOfwork.SaveChanges();
+
             return newUser;
         }
     }

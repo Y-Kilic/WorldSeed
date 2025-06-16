@@ -1,6 +1,7 @@
 ﻿using System;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Domain.Entities.AccountRelated;
+using WorldSeed.Domain.Entities.UserRelated;
 
 namespace WorldSeed.Application.Interfaces.Services
 {
@@ -12,5 +13,7 @@ namespace WorldSeed.Application.Interfaces.Services
         public Account GetAccountByEmail(string email);
         public Account GetAccountByUsername(string username);
         public void UpdateTokens(int accountId, string refreshToken, DateTime Expires, DateTime Created);
+        public User? GetDefaultUser(int accountId);
+        public bool SetDefaultUser(int accountId, int userId);
     }
 }

@@ -37,6 +37,12 @@ namespace WorldSeed.Infrastructure.Data
                 .HasMany<User>()
                 .WithOne(u => u.Account);
 
+            builder.Entity<Account>()
+                .HasOne(a => a.DefaultUser)
+                .WithMany()
+                .HasForeignKey(a => a.DefaultUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.Entity<Group>()
                 .HasOne(g => g.Forum)
                 .WithOne(f => f.Group)

@@ -96,5 +96,38 @@ namespace WorldSeed.Api.Controllers
 
             return strippedUserList;
         }
+
+        [Authorize]
+        [HttpGet("default")] 
+        public ActionResult<GetAccountUsersResponseDTO> GetDefaultUser()
+        {
+            var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+            if (claim == null || !int.TryParse(claim.Value, out var accountId))
+            {
+                return BadRequest();
+            }
+
+            var user = _accountService.GetDefaultUser(accountId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new GetAccountUsersResponseDTO { Id = user.Id, Name = user.Name };
+        }
+
+        [Authorize]
+        [HttpPost("default")] 
+        public IActionResult SetDefaultUser(SetDefaultUserDTO dto)
+        {
+            var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+            if (claim == null || !int.TryParse(claim.Value, out var accountId))
+            {
+                return BadRequest();
+            }
+
+            var success = _accountService.SetDefaultUser(accountId, dto.UserId);
+            return success ? StatusCode(StatusCodes.Status200OK) : StatusCode(StatusCodes.Status400BadRequest);
+        }
     }
 }
