@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.ForumRelated;
@@ -17,14 +16,14 @@ namespace WorldSeed.Persistence.Services
             _unitOfWork = unitOfWork;
         }
 
-        public bool CreateForum(CreateForumDTO createForumDTO)
+        public bool CreateForum(string name, int? groupId)
         {
-            if (!createForumDTO.GroupId.HasValue)
+            if (!groupId.HasValue)
             {
                 return false;
             }
 
-            var group = _unitOfWork.Groups.Get(createForumDTO.GroupId.Value);
+            var group = _unitOfWork.Groups.Get(groupId.Value);
             if (group == null)
             {
                 return false;
@@ -32,7 +31,7 @@ namespace WorldSeed.Persistence.Services
 
             var forum = new Forum
             {
-                Name = createForumDTO.Name,
+                Name = name,
                 Group = group,
                 GroupId = group.Id,
                 CreatedAt = DateTime.UtcNow,
@@ -46,9 +45,9 @@ namespace WorldSeed.Persistence.Services
             return true;
         }
 
-        public ForumCategory CreateCategory(CreateForumCategoryDTO dto)
+        public ForumCategory CreateCategory(int forumId, string name)
         {
-            var forum = _unitOfWork.Forums.Get(dto.ForumId);
+            var forum = _unitOfWork.Forums.Get(forumId);
             if (forum == null)
             {
                 return null!;
@@ -58,7 +57,7 @@ namespace WorldSeed.Persistence.Services
             {
                 Forum = forum,
                 ForumId = forum.Id,
-                Name = dto.Name,
+                Name = name,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -68,10 +67,10 @@ namespace WorldSeed.Persistence.Services
             return category;
         }
 
-        public ForumCategoryThread CreateThread(CreateForumThreadDTO dto)
+        public ForumCategoryThread CreateThread(int forumCategoryId, int ownerId, string title)
         {
-            var category = _unitOfWork.ForumCategories.Get(dto.ForumCategoryId);
-            var owner = _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == dto.OwnerId);
+            var category = _unitOfWork.ForumCategories.Get(forumCategoryId);
+            var owner = _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == ownerId);
             if (category == null || owner == null)
             {
                 return null!;
@@ -83,7 +82,7 @@ namespace WorldSeed.Persistence.Services
                 ForumCategoryId = category.Id,
                 Owner = owner,
                 OwnerId = owner.Id,
-                Title = dto.Title,
+                Title = title,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -93,10 +92,10 @@ namespace WorldSeed.Persistence.Services
             return thread;
         }
 
-        public ForumCategoryThreadPost CreatePost(CreateForumPostDTO dto)
+        public ForumCategoryThreadPost CreatePost(int forumCategoryThreadId, int ownerId, string content)
         {
-            var thread = _unitOfWork.ForumCategoryThreads.Get(dto.ForumCategoryThreadId);
-            var owner = _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == dto.OwnerId);
+            var thread = _unitOfWork.ForumCategoryThreads.Get(forumCategoryThreadId);
+            var owner = _unitOfWork.Users.GetAll().FirstOrDefault(u => u.Id == ownerId);
             if (thread == null || owner == null)
             {
                 return null!;
@@ -108,7 +107,7 @@ namespace WorldSeed.Persistence.Services
                 ForumCategoryThreadId = thread.Id,
                 Owner = owner,
                 OwnerId = owner.Id,
-                Content = dto.Content,
+                Content = content,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };

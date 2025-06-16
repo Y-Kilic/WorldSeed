@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WorldSeed.Infrastructure.Data;
 using WorldSeed.Persistence.Services;
-using WorldSeed.Application.DTOS;
 using WorldSeed.Domain.Entities.GroupRelated;
 using WorldSeed.Domain.Entities.UserRelated;
 
@@ -29,7 +28,7 @@ public class ForumServiceTests
         using var context = CreateContext();
         var service = CreateService(context);
 
-        var result = service.CreateForum(new CreateForumDTO { Name = "Test" });
+        var result = service.CreateForum("Test", null);
 
         Assert.False(result);
         Assert.Empty(context.Forums);
@@ -46,7 +45,7 @@ public class ForumServiceTests
         context.SaveChanges();
         var service = CreateService(context);
 
-        var result = service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
+        var result = service.CreateForum("Forum", group.Id);
 
         Assert.True(result);
         Assert.Equal(1, context.Forums.Count());
@@ -61,7 +60,7 @@ public class ForumServiceTests
         using var context = CreateContext();
         var service = CreateService(context);
 
-        var result = service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = 99 });
+        var result = service.CreateForum("Forum", 99);
 
         Assert.False(result);
         Assert.Empty(context.Forums);
@@ -76,10 +75,10 @@ public class ForumServiceTests
         context.Groups.Add(group);
         context.SaveChanges();
         var service = CreateService(context);
-        service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
+        service.CreateForum("Forum", group.Id);
         var forum = context.Forums.First();
 
-        var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
+        var category = service.CreateCategory(forum.Id, "General");
 
         Assert.NotNull(category);
         Assert.Equal("General", category.Name);
@@ -96,11 +95,11 @@ public class ForumServiceTests
         context.Groups.Add(group);
         context.SaveChanges();
         var service = CreateService(context);
-        service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
+        service.CreateForum("Forum", group.Id);
         var forum = context.Forums.First();
-        var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
+        var category = service.CreateCategory(forum.Id, "General");
 
-        var thread = service.CreateThread(new CreateForumThreadDTO { ForumCategoryId = category.Id, OwnerId = user.Id, Title = "Welcome" });
+        var thread = service.CreateThread(category.Id, user.Id, "Welcome");
 
         Assert.NotNull(thread);
         Assert.Equal("Welcome", thread.Title);
@@ -117,12 +116,12 @@ public class ForumServiceTests
         context.Groups.Add(group);
         context.SaveChanges();
         var service = CreateService(context);
-        service.CreateForum(new CreateForumDTO { Name = "Forum", GroupId = group.Id });
+        service.CreateForum("Forum", group.Id);
         var forum = context.Forums.First();
-        var category = service.CreateCategory(new CreateForumCategoryDTO { ForumId = forum.Id, Name = "General" });
-        var thread = service.CreateThread(new CreateForumThreadDTO { ForumCategoryId = category.Id, OwnerId = user.Id, Title = "Welcome" });
+        var category = service.CreateCategory(forum.Id, "General");
+        var thread = service.CreateThread(category.Id, user.Id, "Welcome");
 
-        var post = service.CreatePost(new CreateForumPostDTO { ForumCategoryThreadId = thread.Id, OwnerId = user.Id, Content = "Hello" });
+        var post = service.CreatePost(thread.Id, user.Id, "Hello");
 
         Assert.NotNull(post);
         Assert.Equal("Hello", post.Content);

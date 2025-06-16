@@ -24,7 +24,7 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createForum")]
         public StatusCodeResult CreateGroup(CreateForumDTO createForumDTO)
         {
-            if (!_forumService.CreateForum(createForumDTO))
+            if (!_forumService.CreateForum(createForumDTO.Name, createForumDTO.GroupId))
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
@@ -36,7 +36,7 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("createCategory")]
         public ActionResult<ForumCategory> CreateCategory(CreateForumCategoryDTO dto)
         {
-            var result = _forumService.CreateCategory(dto);
+            var result = _forumService.CreateCategory(dto.ForumId, dto.Name);
             if (result == null)
             {
                 return BadRequest();
@@ -62,7 +62,7 @@ namespace WorldSeed.Api.Controllers
                 }
             }
 
-            var result = _forumService.CreateThread(dto);
+            var result = _forumService.CreateThread(dto.ForumCategoryId, dto.OwnerId, dto.Title);
             if (result == null)
             {
                 return BadRequest();
@@ -87,7 +87,7 @@ namespace WorldSeed.Api.Controllers
                 }
             }
 
-            var result = _forumService.CreatePost(dto);
+            var result = _forumService.CreatePost(dto.ForumCategoryThreadId, dto.OwnerId, dto.Content);
             if (result == null)
             {
                 return BadRequest();
