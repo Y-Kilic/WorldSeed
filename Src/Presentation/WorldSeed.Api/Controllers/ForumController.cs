@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Domain.Entities.ForumRelated;
@@ -51,8 +50,8 @@ namespace WorldSeed.Api.Controllers
         {
             if (dto.OwnerId <= 0)
             {
-                var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-                if (int.TryParse(claimValue, out var accountId))
+                var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+                if (claim != null && int.TryParse(claim.Value, out var accountId))
                 {
                     var account = _accountService.GetAccountById(accountId);
                     if (account != null && account.DefaultUser != null)
@@ -76,8 +75,8 @@ namespace WorldSeed.Api.Controllers
         {
             if (dto.OwnerId <= 0)
             {
-                var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-                if (int.TryParse(claimValue, out var accountId))
+                var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+                if (claim != null && int.TryParse(claim.Value, out var accountId))
                 {
                     var account = _accountService.GetAccountById(accountId);
                     if (account != null && account.DefaultUser != null)

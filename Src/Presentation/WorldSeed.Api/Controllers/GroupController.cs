@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using System.Linq;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
@@ -21,17 +20,28 @@ namespace WorldSeed.Api.Controllers
             _accountService = accountService;
         }
 
+        private int? GetAccountIdFromClaims()
+        {
+            var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+            if (claim == null || !int.TryParse(claim.Value, out var accountId))
+            {
+                return null;
+            }
+
+            return accountId;
+        }
+
         [Authorize]
         [HttpPost("createGroup")]
         public StatusCodeResult CreateGroup(CreateGroupRequestDto createGroupRequestDto)
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var currentAccountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            var account = _accountService.GetAccountById(currentAccountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
@@ -51,13 +61,13 @@ namespace WorldSeed.Api.Controllers
         [HttpGet("mine")]
         public IEnumerable<GroupDto> GetMyGroups()
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return Enumerable.Empty<GroupDto>();
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return Enumerable.Empty<GroupDto>();
@@ -71,13 +81,13 @@ namespace WorldSeed.Api.Controllers
         [HttpGet("joinable")]
         public IEnumerable<GroupDto> GetJoinableGroups()
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return Enumerable.Empty<GroupDto>();
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return Enumerable.Empty<GroupDto>();
@@ -91,13 +101,13 @@ namespace WorldSeed.Api.Controllers
         [HttpGet("{groupId}/members")]
         public IEnumerable<GroupMemberDto> GetGroupMembers(int groupId)
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return Enumerable.Empty<GroupMemberDto>();
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return Enumerable.Empty<GroupMemberDto>();
@@ -116,13 +126,13 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("join")]
         public StatusCodeResult JoinGroup(JoinGroupRequestDto joinDto)
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
@@ -140,13 +150,13 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("leave")]
         public StatusCodeResult LeaveGroup(JoinGroupRequestDto dto)
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
@@ -160,13 +170,13 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("updateName")]
         public StatusCodeResult UpdateGroupName(UpdateGroupNameDto dto)
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
@@ -180,13 +190,13 @@ namespace WorldSeed.Api.Controllers
         [HttpPost("rank")]
         public StatusCodeResult ChangeRank(ChangeMemberRankDto dto)
         {
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var accountId))
+            var accountId = GetAccountIdFromClaims();
+            if (!accountId.HasValue)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            var account = _accountService.GetAccountById(accountId);
+            var account = _accountService.GetAccountById(accountId.Value);
             if (account == null || account.DefaultUser == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
