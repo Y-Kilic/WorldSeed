@@ -88,7 +88,12 @@ namespace WorldSeed.Persistence.Services
         }
         public Account GetAccountById(int accountId)
         {
-            return _unitOfwork.Accounts.Get(accountId);
+            var account = _unitOfwork.Accounts.Get(accountId);
+            if (account != null && account.DefaultUserId.HasValue)
+            {
+                account.DefaultUser = _unitOfwork.Users.Get(account.DefaultUserId.Value);
+            }
+            return account;
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
@@ -113,10 +118,8 @@ namespace WorldSeed.Persistence.Services
 
         public User? GetDefaultUser(int accountId)
         {
-            return _unitOfwork.Accounts.GetAll()
-                .Where(a => a.Id == accountId)
-                .Select(a => a.DefaultUser)
-                .FirstOrDefault();
+            var account = GetAccountById(accountId);
+            return account?.DefaultUser;
         }
 
         public bool SetDefaultUser(int accountId, int userId)
