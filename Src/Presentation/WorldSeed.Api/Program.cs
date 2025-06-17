@@ -57,10 +57,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value ?? string.Empty)),
             ValidateIssuer = false,
             ValidateAudience = false,
-            NameClaimType = "name",
+            NameClaimType = "accountId",
             RoleClaimType= "role",
         };
     });
+builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
          options.UseInMemoryDatabase(databaseName: "Test"));
 
@@ -99,9 +100,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
+app.UseAuthentication();
 
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 
