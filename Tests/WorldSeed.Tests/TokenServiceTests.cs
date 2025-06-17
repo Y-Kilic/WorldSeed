@@ -4,6 +4,8 @@ using WorldSeed.Application.Interfaces.Services;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Domain.Entities.AccountRelated;
 using WorldSeed.Domain.Entities.UserRelated;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace WorldSeed.Tests;
 
@@ -83,6 +85,20 @@ public class TokenServiceTests
 
         Assert.False(service.IsRefreshTokenValid(1, "abc"));
         Assert.False(service.IsRefreshTokenValid(1, "other"));
+    }
+
+    [Fact]
+    public void CreateToken_IncludesAccountIdClaim()
+    {
+        var service = CreateService(new Account());
+
+        var tokenDto = service.CreateToken(5);
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(tokenDto.Token);
+
+        var claim = jwt.Claims.FirstOrDefault(c => c.Type == "accountId");
+        Assert.NotNull(claim);
+        Assert.Equal("5", claim!.Value);
     }
 }
 

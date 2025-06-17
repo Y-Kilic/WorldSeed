@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
@@ -91,8 +90,8 @@ namespace WorldSeed.Api.Controllers
         public ActionResult<RefreshTokenResponseDTO> RefreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO)
         {
 
-            var claimValue = User.FindFirst(ClaimTypes.Name)?.Value;
-            if (!int.TryParse(claimValue, out var currentUserId))
+            var claim = Request.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "accountId");
+            if (claim == null || !int.TryParse(claim.Value, out var currentUserId))
             {
                 return BadRequest("Refreshtoken not valid.");
 
