@@ -6,5 +6,6 @@ namespace WorldSeed.Application.Interfaces.Repositories
     public interface IGroupMemberRepository : IRepository<GroupMember>
     {
         IEnumerable<GroupMember> GetMembersWithGroups(long userId);
+        IEnumerable<GroupMember> GetMembersWithUsers(int groupId);
     }
 }

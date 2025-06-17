@@ -185,7 +185,7 @@ namespace WorldSeed.Persistence.Services
 
         public IEnumerable<GroupMember> GetGroupMembers(int groupId)
         {
-            return _unitOfwork.GroupMembers.Find(m => m.Group.Id == groupId);
+            return _unitOfwork.GroupMembers.GetMembersWithUsers(groupId);
         }
     }
 }

@@ -25,5 +25,13 @@ namespace WorldSeed.Infrastructure.Repositories
                 .Where(m => m.User.Id == userId)
                 .ToList();
         }
+
+        public IEnumerable<GroupMember> GetMembersWithUsers(int groupId)
+        {
+            return ApplicationDbContext.GroupMembers
+                .Include(m => m.User)
+                .Where(m => m.Group.Id == groupId)
+                .ToList();
+        }
     }
 }
