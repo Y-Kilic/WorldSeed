@@ -166,15 +166,17 @@ namespace WorldSeed.Persistence.Services
         public IEnumerable<Group> GetGroupsForUser(long userId)
         {
             return _unitOfwork.GroupMembers
-                .Find(m => m.User.Id == userId)
-                .Select(m => m.Group);
+                .GetMembersWithGroups(userId)
+                .Where(m => m.Group != null)
+                .Select(m => m.Group!);
         }
 
         public IEnumerable<Group> GetJoinableGroups(long userId)
         {
             var joinedIds = _unitOfwork.GroupMembers
-                .Find(m => m.User.Id == userId)
-                .Select(m => m.Group.Id)
+                .GetMembersWithGroups(userId)
+                .Where(m => m.Group != null)
+                .Select(m => m.Group!.Id)
                 .ToHashSet();
 
             return _unitOfwork.Groups.GetAll()
