@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using WorldSeed.Domain.Entities.GroupRelated;
 using WorldSeed.Application.Interfaces.Repositories;
 using WorldSeed.Infrastructure.Data;
@@ -13,6 +16,14 @@ namespace WorldSeed.Infrastructure.Repositories
         ApplicationDbContext ApplicationDbContext
         {
             get { return Context as ApplicationDbContext; }
+        }
+
+        public IEnumerable<GroupMember> GetMembersWithGroups(long userId)
+        {
+            return ApplicationDbContext.GroupMembers
+                .Include(m => m.Group)
+                .Where(m => m.User.Id == userId)
+                .ToList();
         }
     }
 }
