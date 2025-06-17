@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value ?? string.Empty)),
             ValidateIssuer = false,
             ValidateAudience = false,
-            NameClaimType = "name",
+            NameClaimType = "accountId",
             RoleClaimType= "role",
         };
     });
