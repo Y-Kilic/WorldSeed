@@ -130,5 +130,37 @@ public class AccountServiceTests
         Assert.True(result);
         Assert.Equal(user.Id, context.Accounts.First().DefaultUserId);
     }
+
+    [Fact]
+    public void GetDefaultUser_ShouldReturnUser()
+    {
+        using var context = CreateContext();
+        var service = CreateService(context);
+        var (hash, salt) = Hash("pass");
+        var account = service.CreateAccount("user", "user@example.com", hash, salt);
+        var userService = new UserService(new UnitOfWork(context));
+        var user = userService.CreateUser(account.Id, "u1");
+
+        var fetched = service.GetDefaultUser(account.Id);
+
+        Assert.NotNull(fetched);
+        Assert.Equal(user.Id, fetched!.Id);
+    }
+
+    [Fact]
+    public void GetAccountById_ShouldPopulateDefaultUser()
+    {
+        using var context = CreateContext();
+        var service = CreateService(context);
+        var (hash, salt) = Hash("pass");
+        var account = service.CreateAccount("user", "user@example.com", hash, salt);
+        var userService = new UserService(new UnitOfWork(context));
+        var user = userService.CreateUser(account.Id, "u1");
+
+        var fetched = service.GetAccountById(account.Id);
+
+        Assert.NotNull(fetched!.DefaultUser);
+        Assert.Equal(user.Id, fetched.DefaultUser!.Id);
+    }
 }
 
