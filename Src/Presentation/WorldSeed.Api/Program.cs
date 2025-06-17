@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.Interfaces;
@@ -57,10 +58,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value ?? string.Empty)),
             ValidateIssuer = false,
             ValidateAudience = false,
-            NameClaimType = "name",
+            NameClaimType = ClaimTypes.Name,
             RoleClaimType= "role",
         };
     });
+builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
          options.UseInMemoryDatabase(databaseName: "Test"));
 
@@ -99,9 +101,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
+app.UseAuthentication();
 
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 
