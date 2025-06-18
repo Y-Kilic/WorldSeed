@@ -107,7 +107,12 @@ namespace WorldSeed.Persistence.Services
 
         public void UpdateTokens(int accountId, string refreshToken, DateTime expires, DateTime created)
         {
-            var account = _unitOfwork.Accounts.GetAll().Where(u => u.Id.Equals(accountId)).FirstOrDefault();
+            var account = _unitOfwork.Accounts.GetAll()
+                .FirstOrDefault(u => u.Id.Equals(accountId));
+            if (account == null)
+            {
+                return;
+            }
 
             account.RefreshToken = refreshToken;
             account.TokenExpires = expires;
