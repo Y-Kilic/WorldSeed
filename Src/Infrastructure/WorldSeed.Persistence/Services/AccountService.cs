@@ -57,7 +57,9 @@ namespace WorldSeed.Persistence.Services
 
         public Account CheckLoginByEmail(string email, string password)
         {
-            var accountFromDB = _unitOfwork.Accounts.GetAll().Where(u => u.Email.Equals(email)).FirstOrDefault();
+            var accountFromDB = _unitOfwork.Accounts
+                .Find(u => u.Email.Equals(email))
+                .FirstOrDefault();
 
             // Account not exist
             if(null == accountFromDB)
@@ -80,11 +82,15 @@ namespace WorldSeed.Persistence.Services
 
         public Account GetAccountByEmail(string email)
         {
-            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.Email.Equals(email));
+            return _unitOfwork.Accounts
+                .Find(a => a.Email.Equals(email))
+                .FirstOrDefault();
         }
         public Account GetAccountByUsername(string username)
         {
-            return _unitOfwork.Accounts.GetAll().FirstOrDefault(a => a.UserName.Equals(username));
+            return _unitOfwork.Accounts
+                .Find(a => a.UserName.Equals(username))
+                .FirstOrDefault();
         }
         public Account GetAccountById(int accountId)
         {
@@ -107,7 +113,9 @@ namespace WorldSeed.Persistence.Services
 
         public void UpdateTokens(int accountId, string refreshToken, DateTime expires, DateTime created)
         {
-            var account = _unitOfwork.Accounts.GetAll().Where(u => u.Id.Equals(accountId)).FirstOrDefault();
+            var account = _unitOfwork.Accounts
+                .Find(u => u.Id.Equals(accountId))
+                .FirstOrDefault();
 
             account.RefreshToken = refreshToken;
             account.TokenExpires = expires;
@@ -125,8 +133,9 @@ namespace WorldSeed.Persistence.Services
         public bool SetDefaultUser(int accountId, int userId)
         {
             var account = _unitOfwork.Accounts.Get(accountId);
-            var user = _unitOfwork.Users.GetAll()
-                .FirstOrDefault(u => u.Id == userId && u.Account.Id == accountId);
+            var user = _unitOfwork.Users
+                .Find(u => u.Id == userId && u.Account.Id == accountId)
+                .FirstOrDefault();
             if (account == null || user == null)
             {
                 return false;
