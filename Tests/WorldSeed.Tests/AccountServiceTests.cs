@@ -116,6 +116,24 @@ public class AccountServiceTests
     }
 
     [Fact]
+    public void UpdateTokens_InvalidId_DoesNothing()
+    {
+        using var context = CreateContext();
+        var service = CreateService(context);
+        var (hash, salt) = Hash("pass");
+        var account = service.CreateAccount("user", "user@example.com", hash, salt);
+
+        var expires = DateTime.UtcNow.AddHours(1);
+        var created = DateTime.UtcNow;
+        service.UpdateTokens(account.Id + 1, "token", expires, created);
+
+        var unchanged = context.Accounts.First();
+        Assert.Equal(string.Empty, unchanged.RefreshToken);
+        Assert.Equal(default, unchanged.TokenExpires);
+        Assert.Equal(default, unchanged.TokenCreated);
+    }
+
+    [Fact]
     public void SetDefaultUser_ShouldUpdateDefaultUser()
     {
         using var context = CreateContext();
