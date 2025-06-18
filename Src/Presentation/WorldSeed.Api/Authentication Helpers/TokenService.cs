@@ -65,12 +65,14 @@ namespace WorldSeed.Api.Temp
         {
             var account = _accountService.GetAccountById(accountId);
 
-            if (account.RefreshToken == refreshToken)
+            if (account == null)
             {
-                if(account.TokenExpires > DateTime.UtcNow)
-                {
-                    return true;
-                }
+                return false;
+            }
+
+            if (account.RefreshToken == refreshToken && account.TokenExpires > DateTime.UtcNow)
+            {
+                return true;
             }
 
             return false;
