@@ -21,7 +21,7 @@ namespace WorldSeed.Api.Controllers
         }
 
         [HttpPost("createForum")]
-        public StatusCodeResult CreateGroup(CreateForumDTO createForumDTO)
+        public StatusCodeResult CreateForum(CreateForumDTO createForumDTO)
         {
             if (!_forumService.CreateForum(createForumDTO.Name, createForumDTO.GroupId))
             {
