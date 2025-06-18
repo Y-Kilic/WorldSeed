@@ -72,6 +72,7 @@ builder.Services.AddTransient<IGroupService, GroupService>();
 builder.Services.AddTransient<IForumService, ForumService>();
 
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

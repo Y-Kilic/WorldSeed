@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
 using WorldSeed.Api.Temp;
 using WorldSeed.Application.DTOS;
 using WorldSeed.Application.Interfaces.Services;
@@ -20,12 +19,14 @@ namespace WorldSeed.Api.Controllers
         private readonly IConfiguration _configuration;
         private readonly IAccountService _accountService;
         private readonly ITokenService _tokenService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public AuthController(IConfiguration configuration, IAccountService accountService, ITokenService tokenService)
+        public AuthController(IConfiguration configuration, IAccountService accountService, ITokenService tokenService, IPasswordHasher passwordHasher)
         {
             _configuration = configuration;
             _accountService = accountService;
             _tokenService = tokenService;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost("register")]
@@ -39,7 +40,7 @@ namespace WorldSeed.Api.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
 
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            _passwordHasher.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var resultCreate =_accountService.CreateAccount(request.Username, request.Email, passwordHash, passwordSalt);
 
@@ -118,16 +119,6 @@ namespace WorldSeed.Api.Controllers
             };
 
             return Ok(refreshTokenResponseDTO);
-        }
-
-        // TODO: Move this out of AuthController
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
         }
 
     }
