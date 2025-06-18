@@ -18,15 +18,13 @@ namespace WorldSeed.Api.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
 
 
-        public UserController(IAccountService accountService, IUserService userService, IHttpContextAccessor httpContextAccessor)
+        public UserController(IAccountService accountService, IUserService userService)
         {
             _accountService = accountService;
             _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [Authorize]
