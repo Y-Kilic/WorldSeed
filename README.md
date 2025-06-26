@@ -36,3 +36,14 @@ To execute the unit tests run:
 ```bash
 dotnet test Src/WorldSeed.sln -c Release
 ```
+
+## Docker deployment on Render.com
+
+A `Dockerfile` is provided to containerize the API for deployment. Build and run with:
+
+```bash
+docker build -t worldseed .
+docker run -p 8080:8080 worldseed
+```
+
+The container listens on port `8080`. On Render, set the service port to `8080` and use the `Docker` deployment option.
