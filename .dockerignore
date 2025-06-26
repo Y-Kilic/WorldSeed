@@ -3,4 +3,5 @@
 .git
 Dockerfile
 **/*.user
-Tests
+Tests/*
+!Tests/WorldSeed.Tests/WorldSeed.Tests.csproj
