@@ -21,10 +21,18 @@ var initialConfig = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var apiUrl = initialConfig.GetValue<string>("ApiSettings:Url");
-if (!string.IsNullOrWhiteSpace(apiUrl))
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(port))
 {
-    Environment.SetEnvironmentVariable("ASPNETCORE_URLS", apiUrl);
+    Environment.SetEnvironmentVariable("ASPNETCORE_URLS", $"http://0.0.0.0:{port}");
+}
+else
+{
+    var apiUrl = initialConfig.GetValue<string>("ApiSettings:Url");
+    if (!string.IsNullOrWhiteSpace(apiUrl))
+    {
+        Environment.SetEnvironmentVariable("ASPNETCORE_URLS", apiUrl);
+    }
 }
 
 var builder = WebApplication.CreateBuilder(args);
