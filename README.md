@@ -43,7 +43,7 @@ A `Dockerfile` is provided to containerize the API for deployment. Build and run
 
 ```bash
 docker build -t worldseed .
-docker run -p 8080:8080 worldseed
+docker run -e PORT=8080 -p 8080:8080 worldseed
 ```
 
-The container listens on port `8080`. On Render, set the service port to `8080` and use the `Docker` deployment option.
+The container listens on the port specified by the `PORT` environment variable. On Render, set `PORT` (e.g., `8080`) and use the `Docker` deployment option.
