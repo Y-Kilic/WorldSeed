@@ -20,8 +20,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Application listens on port 8080 by default
-ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+# Application listens on the port specified by $PORT
+ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT}
 EXPOSE 8080
 
 ENTRYPOINT ["dotnet", "WorldSeed.Api.dll"]
