@@ -22,7 +22,8 @@ var initialConfig = new ConfigurationBuilder()
     .Build();
 
 var port = Environment.GetEnvironmentVariable("PORT");
-if (!string.IsNullOrWhiteSpace(port))
+var isPortConfigured = !string.IsNullOrWhiteSpace(port);
+if (isPortConfigured)
 {
     Environment.SetEnvironmentVariable("ASPNETCORE_URLS", $"http://0.0.0.0:{port}");
 }
@@ -107,7 +108,10 @@ if (app.Environment.IsDevelopment())
     app.UseCors("DevelopmentModeCors");
 }
 
-app.UseHttpsRedirection();
+if (!isPortConfigured)
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 

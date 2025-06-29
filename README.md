@@ -46,4 +46,4 @@ docker build -t worldseed .
 docker run -e PORT=8080 -p 8080:8080 worldseed
 ```
 
-The container listens on the port specified by the `PORT` environment variable. On Render, set `PORT` (e.g., `8080`) and use the `Docker` deployment option.
+The container listens on the port specified by the `PORT` environment variable. On Render, set `PORT` (e.g., `8080`) and use the `Docker` deployment option. `app.UseHttpsRedirection()` is automatically disabled when `PORT` is detected so the service can run behind Render's TLS proxy without errors.
