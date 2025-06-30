@@ -1,0 +1,10 @@
+app = "worldseed-app"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  ASPNETCORE_URLS = "http://0.0.0.0:8080"
+
+[http_service]
+  internal_port = 8080

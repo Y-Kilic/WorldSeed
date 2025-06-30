@@ -21,19 +21,10 @@ var initialConfig = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var port = Environment.GetEnvironmentVariable("PORT");
-var isPortConfigured = !string.IsNullOrWhiteSpace(port);
-if (isPortConfigured)
+var apiUrl = initialConfig.GetValue<string>("ApiSettings:Url");
+if (!string.IsNullOrWhiteSpace(apiUrl))
 {
-    Environment.SetEnvironmentVariable("ASPNETCORE_URLS", $"http://0.0.0.0:{port}");
-}
-else
-{
-    var apiUrl = initialConfig.GetValue<string>("ApiSettings:Url");
-    if (!string.IsNullOrWhiteSpace(apiUrl))
-    {
-        Environment.SetEnvironmentVariable("ASPNETCORE_URLS", apiUrl);
-    }
+    Environment.SetEnvironmentVariable("ASPNETCORE_URLS", apiUrl);
 }
 
 var builder = WebApplication.CreateBuilder(args);
@@ -108,10 +99,7 @@ if (app.Environment.IsDevelopment())
     app.UseCors("DevelopmentModeCors");
 }
 
-if (!isPortConfigured)
-{
-    app.UseHttpsRedirection();
-}
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

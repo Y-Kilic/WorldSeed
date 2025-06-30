@@ -37,13 +37,13 @@ To execute the unit tests run:
 dotnet test Src/WorldSeed.sln -c Release
 ```
 
-## Docker deployment on Render.com
+## Deployment on Fly.io
 
-A `Dockerfile` is provided to containerize the API for deployment. Build and run with:
+A `Dockerfile` is provided to containerize the API. Build and run locally with:
 
 ```bash
 docker build -t worldseed .
-docker run -e PORT=8080 -p 8080:8080 worldseed
+docker run -p 8080:8080 worldseed
 ```
 
-The container listens on the port specified by the `PORT` environment variable. On Render, set `PORT` (e.g., `8080`) and use the `Docker` deployment option. `app.UseHttpsRedirection()` is automatically disabled when `PORT` is detected so the service can run behind Render's TLS proxy without errors.
+The service listens on port `8080`. When deploying to Fly.io, ensure `fly.toml` sets the `internal_port` to `8080` so incoming traffic is forwarded correctly.
