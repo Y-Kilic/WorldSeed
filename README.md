@@ -47,3 +47,5 @@ docker run -p 8080:8080 worldseed
 ```
 
 The service listens on port `8080`. When deploying to Fly.io, ensure `fly.toml` sets the `internal_port` to `8080` so incoming traffic is forwarded correctly.
+
+Swagger UI is enabled in all environments. Visiting the root URL or `/swagger` shows the interactive API documentation.
