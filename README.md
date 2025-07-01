@@ -23,6 +23,9 @@ As a developer I dislike reinventing the wheel every time I am assigned to work 
 # Web client for the API
 https://github.com/Y-Kilic/Worldseed.Client.Blazor
 
+A live instance of the API runs on Render at
+<https://worldseed-api.onrender.com>.
+
 Credits to:
 https://github.com/jasontaylordev/NorthwindTraders (For his example and inspiration)
 
@@ -37,15 +40,16 @@ To execute the unit tests run:
 dotnet test Src/WorldSeed.sln -c Release
 ```
 
-## Deployment on Fly.io
+## Deployment on Render.com
 
-A `Dockerfile` is provided to containerize the API. Build and run locally with:
+Each pull request is automatically deployed to Render. A `Dockerfile` is
+provided to containerize the API. Build and run locally with:
 
 ```bash
 docker build -t worldseed .
 docker run -p 8080:8080 worldseed
 ```
 
-The service listens on port `8080`. When deploying to Fly.io, ensure `fly.toml` sets the `internal_port` to `8080` so incoming traffic is forwarded correctly.
+The service listens on port `8080`. When deploying to Render.com make sure the container exposes this port so incoming traffic is forwarded correctly.
 
 Swagger UI is enabled in all environments. Visiting the root URL or `/swagger` shows the interactive API documentation.
